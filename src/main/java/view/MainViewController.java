@@ -12,11 +12,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainViewController {
 
@@ -62,13 +64,22 @@ public class MainViewController {
         return singleton_instace;
     }
 
+    public Scene getScene() throws IOException {
+        FXMLLoader fxmlLoader = null;
+        String fxmlPath = "src/main/resources/ui/fxml/main-page.fxml";
+        fxmlLoader = new FXMLLoader(new File(fxmlPath).toURI().toURL());
+        Scene scene = new Scene(fxmlLoader.load(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight());
+        scene.getStylesheets().add(getClass().getResource("/ui/css/main-page.css").toExternalForm());
+        return scene;
+    }
+
     public void swapePage() throws IOException {
         System.out.println("swapPage function");
         FXMLLoader fxmlLoader = null;
         String fxmlPath = "src/main/resources/ui/fxml/game_view.fxml";
-        fxmlLoader = new FXMLLoader(new File(fxmlPath).toURI().toURL());
+        fxmlLoader = new FXMLLoader(new File(fxmlPath).toURL());
         Scene scene = new Scene(fxmlLoader.load());
-//        scene.getStylesheets().add(getClass().getResource("/ui/css/board-page.css").toExternalForm());
+//        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/ui/css/board-page.css")).toExternalForm());
         GameViewController bc = fxmlLoader.getController();
         bc.setStage(stage);
         bc.setViewModel(vm);
@@ -89,7 +100,7 @@ public class MainViewController {
                     });
         });
         stage.setScene(scene);
-        stage.setFullScreen(true);
+        stage.show();
 //        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     }
 
@@ -147,4 +158,7 @@ public class MainViewController {
     }
 
 
+    public void setPage(Stage stage) {
+        this.stage=stage;
+    }
 }

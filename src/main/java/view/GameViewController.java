@@ -2,20 +2,29 @@ package view;
 
 import Data.Tile;
 import ViewModel.ScrabbleViewModel;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 
-import javafx.beans.Observable;
+
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 
+import javafx.geometry.Pos;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,47 +32,18 @@ import java.util.List;
 public class GameViewController {
     ScrabbleViewModel vm;
     boolean host = false;
-
-    // Player variables
-    private StringProperty playerName;
-    private StringProperty turn;
-    private ListProperty<TileView> tiles;
-    private BooleanProperty disconnect;
-
-    private Tile selectedTile;
-    private Label draggedTile; // Reference to the dragged tile label
-
-    //game variable
-    ObjectProperty<String> scoreTable;
-    ObjectProperty<TileView[][]> bindingBoard;
-
-
     Stage stage;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
-    //THE INITIALIZE COLORS VALUES
-    private static final Color defoultTileBardColor = Color.WHITE;
-    private static final Color defoultTileBagColor = Color.SANDYBROWN;
-    private static final Color middleStarColor = Color.GOLD;
-    private static final Color tripleWordScoreColor = Color.RED;
-    private static final Color doubleWordScoreColor = Color.LIGHTYELLOW;
-    private static final Color tripleLetterScoreColor = Color.BLUE;
-    private static final Color doubleLetterScoreColor = Color.LIGHTBLUE;
+    // UI components\\
 
-    private BooleanProperty myTurn;
-
-    private BooleanProperty gameOver;
-
-    // UI components
+    //------------
 
     @FXML
     public SplitPane mainContainer;
 
     @FXML
-    private ListView<TileView> tilesTableView;
+    private ListView<Cell> tilesPlayerView;
 
     @FXML
     private ListView<String> scoreTableView;
@@ -74,21 +54,42 @@ public class GameViewController {
     @FXML
     private Button submitButton;
 
+    //---------------
+
+    private TileView selectedTile;
+
+    private Label draggedTile; // Reference to the dragged tile label
+
+    // binding variables for the vm \\
+
+    BooleanProperty disconnect;
+    ListProperty<TileView> bindingTiles; //the binding for the vm //
+    ListProperty<String> bindingScoreTable;//for all players
+    ObjectProperty<Tile[][]> bindingBoard;//for all players
+
+    private BooleanProperty myTurn;
+    private BooleanProperty gameOver;
+
+
+    //THE INITIALIZE COLORS VALUES
+    private static final Color defoultTileBardColor = Color.WHITE;
+    private static final Color defoultTileBagColor = Color.SANDYBROWN;
+    private static final Color middleStarColor = Color.GOLD;
+    private static final Color tripleWordScoreColor = Color.RED;
+    private static final Color doubleWordScoreColor = Color.LIGHTYELLOW;
+    private static final Color tripleLetterScoreColor = Color.BLUE;
+    private static final Color doubleLetterScoreColor = Color.LIGHTBLUE;
+
+    private static final int TILE_SIZE = 40;
+
     public GameViewController() {
+
     }
 
-    @FXML
-    private void exitGame() {
-        // Implement the exitGame functionality
-        System.exit(0);
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
-
-    @FXML
-    private void homePage() {
-        // Implement the homePage functionality
-        // Code to navigate to the previous page
-    }
 
     public void setViewModel(ScrabbleViewModel vm) {
         this.vm = vm;
@@ -96,13 +97,22 @@ public class GameViewController {
         disconnect.bindBidirectional(this.vm.getDisconnect());
     }
 
+    public void initWindow() {
+        System.out.println("initWindow");
+        initBinding();
+        initBoard();
+        initPlayersTiles();
+        initButtons();
+        addListeners();
+    }
+
 
     private void initBinding() {
         scoreTableView.itemsProperty().bind(vm.getScores());
-        tiles = new SimpleListProperty<>(FXCollections.observableArrayList());
-        tiles.bindBidirectional(TileView.tileListToTileViewList(vm.getTiles()).itemsProperty());
+        bindingTiles = new SimpleListProperty<>(FXCollections.observableArrayList());
+        bindingTiles.bindBidirectional(tileListToTileViewList(vm.getTiles()).itemsProperty());
         bindingBoard = new SimpleObjectProperty<>();
-        bindingBoard.bindBidirectional(fromTilesBoardToTilesViewBoard(vm.getBoard().get()));
+        bindingBoard.bindBidirectional(vm.getBoard());
         myTurn = new SimpleBooleanProperty();
         myTurn.bindBidirectional(vm.myTurn);
         gameOver = new SimpleBooleanProperty();
@@ -112,25 +122,29 @@ public class GameViewController {
     }
 
     private void initBoard() {
-        bindingBoard.set(fromTilesBoardToTilesViewBoard(vm.getBoard().get()).get());
+        bindingBoard.set(vm.getPrevBoard());
     }
 
     private void initPlayersTiles() {
-        for (int i = 0; i < 7; i++) {
+        tilesPlayerView=new ListView<>();
+        for (int i = 0; i < 7 ; i++) {
             TileView tile;
-            if (!tiles.isEmpty()) {
-                tile = new TileView(tiles.get(i).letter, tiles.get(i).score, defoultTileBagColor);
+            if (!bindingTiles.isEmpty()) {
+                tile = new TileView(bindingTiles.get(i).getTileOriginal());
             } else {
-                tile = new TileView("A", 0, defoultTileBagColor);
+                tile = new TileView();
             }
-            TileView c = tile;
-            c.draggable = true;
-            tilesTableView.getItems().add(c);
+            Cell c = new Cell();
+            c.setDraggable(true);
+            tilesPlayerView.getItems().add(c);
+            tilesPlayerView.getItems().get(i).setTile(tile);
+            tilesPlayerView.getItems().get(i).setStyle("-fx-background-color: white; -fx-border-color: black;"); //-fx-border-color: black;
         }
     }
 
+
     private void initButtons() {
-        playerName = new SimpleStringProperty();
+        SimpleStringProperty playerName = new SimpleStringProperty();
 
         // Create the tabs (Exit, Minimize, Back)
         Button exitTab = new Button("X");
@@ -155,7 +169,7 @@ public class GameViewController {
             if (newValue != null) {
                 // Clear the board and re-populate it with the new values
                 board.getChildren().clear();
-                bindingBoard.set(fromTilesBoardToTilesViewBoard(vm.getBoard().get()).get());
+                bindingBoard.set(vm.getBoard().get());
 
             }
         });
@@ -170,33 +184,7 @@ public class GameViewController {
         }
     }
 
-    // an update of the tiles player bag\\
-    private void updateTilesTableView() {
-        tiles.setAll(TileView.tileListToTileViewList(vm.getTiles().get()).getItems());
-    }
-
-    // an update of the score players \\
-    private void updateScoreTableView() {
-        scoreTable = null;
-        scoreTableView.setItems(vm.getScores().get());
-    }
-
-    //helper method
-    private ObjectProperty<TileView[][]> fromTilesBoardToTilesViewBoard(Tile[][] tilesBoard) {
-        Color[][] tilesColorBoard;
-        tilesBoard = vm.getPrevBoard();
-        tilesColorBoard = getBoardColor();
-        ObjectProperty<TileView[][]> boardView = new SimpleObjectProperty<>();
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                TileView tileView = new TileView(String.valueOf(tilesBoard[i][j].letter), tilesBoard[i][j].score, tilesColorBoard[i][j]);
-//                boardView.get()[i][j] = tileView;
-                board.add(tileView, i, j);
-            }
-        }
-        return boardView;
-    }
-
+    // an update of the playerTiles player bag\\
 
     @FXML
     private void submitButtonClicked(MouseEvent event) {
@@ -208,43 +196,259 @@ public class GameViewController {
         this.host = isHost;
     }
 
-    public void initWindow() {
-        System.out.println("initWindow");
-        initBinding();
-        initBoard();
-        initPlayersTiles();
-        initButtons();
-        addListeners();
+
+    // helper classes \\
+
+    //----------
+
+    private class Cell extends StackPane {
+
+        private TileView tile;
+
+        private boolean draggable;
+
+        public Cell() {
+            this.tile = new TileView();
+            this.getChildren().add(tile);
+            this.draggable = true;
+            setPrefSize(TILE_SIZE, TILE_SIZE);
+            initEvents();
+        }
+
+        private void initEvents() {
+            // Set the drag and drop event handlers for the cell
+            setOnDragOver(event -> {
+                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+                    // Allow for moving
+                    event.acceptTransferModes(TransferMode.MOVE);
+                }
+                event.consume();
+            });
+
+            setOnDragEntered(event -> {
+                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+                    setOpacity(0.7);
+                }
+            });
+
+            setOnDragExited(event -> {
+                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+                    setOpacity(1.0);
+                }
+            });
+
+            setOnDragDropped(event -> {
+                if (event.getGestureSource() != this && event.getDragboard().hasString() && this.tile.letter == '\u0000') {
+                    // Indicate that the drag operation was successful
+                    event.setDropCompleted(true);
+
+                    TileView sourceTile = (TileView) event.getGestureSource();
+                    Cell sourceCell = (Cell) sourceTile.getParent();
+                    sourceCell.setDraggable(true);
+                    // Check if the dragged Tile belongs to the playerTiles or tiles
+                    if (tilesPlayerView.getItems().contains(sourceCell) || bindingTiles.contains(sourceCell.tile)) {
+                        if (this == sourceCell) {
+                            // The tile is being dragged onto the same cell, no action needed
+                            return;
+                        }
+                        // Update the UI to reflect the change
+                        System.out.println(sourceCell.tile.letter);
+                        //playerBoardTiles.add(this);
+                        if (this.tile.letter != '\u0000') {
+                            System.out.println(this.tile.letter);
+                            return;
+                        }
+
+                        TileView newTile = new TileView(sourceTile.getTileOriginal());
+
+                        this.getChildren().clear();
+                        this.tile.setTile(newTile.getTileOriginal());
+                        this.getChildren().add(this.tile);
+                        sourceCell.getChildren().clear();
+                        sourceTile.setTile(new TileView().getTileOriginal());
+                        this.setDraggable(true);
+                        // Update the bindingBoard property
+                        int row = GridPane.getRowIndex(this);
+                        int col = GridPane.getColumnIndex(this);
+                        Tile[][] currentBoard = bindingBoard.get();
+                        currentBoard[row][col] = newTile.getTileOriginal();
+                        bindingBoard.set(currentBoard);
+                    }
+                } else {
+                    event.setDropCompleted(false);
+                }
+                event.consume();
+            });
+
+
+        }
+
+        public void setTile(TileView tile) {
+            this.tile = tile;
+            getChildren().clear();
+            getChildren().add(this.tile);
+        }
+
+
+        public void setDraggable(Boolean val) {
+            tile.setDraggable(val);
+            this.draggable = val;
+        }
+
+        public TileView getTile() {
+            return tile;
+        }
+
+        public boolean isDraggable() {
+            return draggable;
+        }
     }
 
 
-    public static class TileView extends Label{
+    public class TileView extends Label {
 
-        private String letter;
+        private char letter;
         private int score;
-        private ObjectProperty<Color> color;
+        private Color color;
+        private final DropShadow shadow = new DropShadow();
+        private Cell targetCell;
+        private Tile tileOriginal;
+
         private boolean draggable;
 
-        public TileView(String letter, int score, Color color) {
-            this.letter = letter;
-            this.score = score;
-            this.color = new SimpleObjectProperty<>(color);
-            draggable = false;
+        public TileView(Tile tile) { // brown tiles
+            super();
+            tileOriginal = tile;
+            this.letter = tile.letter;
+            this.score = tile.score;
+            this.color = defoultTileBagColor;
+            draggable = true;
+            initValue();
 
-            setPrefSize(40, 40);
-            setText(letter);
-            updateColor();
+
+            setText(getTileText());
+
+            setPrefSize(TILE_SIZE, TILE_SIZE);
+            setAlignment(Pos.CENTER);
+
+            this.initEvents();
         }
 
-        // Getters and setters for the properties
+        private void initEvents() {
+            setOnDragDetected(event -> {
+                System.out.println(draggable);
+                if (!draggable)
+                    return;
+                Dragboard db = startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                content.putString(getText());
+                db.setContent(content);
+                selectedTile = this;
 
-        public String getLetter() {
+                // Add dragging effect
+                setEffect(shadow);
+                toFront();
+
+                // Set the drag view
+                SnapshotParameters parameters = new SnapshotParameters();
+                parameters.setFill(Color.TRANSPARENT);
+                Image snapshot = snapshot(parameters, null);
+                db.setDragView(snapshot, snapshot.getWidth() / 2, snapshot.getHeight() / 2);
+
+                // Set the drag position relative to the tile
+                event.setDragDetect(true);
+                event.consume();
+            });
+
+            setOnDragDone(event -> {
+                if (event.getTransferMode() == TransferMode.MOVE && targetCell != null) {
+                    selectedTile = null;
+                    // Remove the tile from the source cell
+                    Cell sourceCell = (Cell) getParent();
+                    sourceCell.setTile(new TileView());
+                    // Add the tile to the target cell
+                    targetCell.setTile(this);
+
+                    // Center the tile in the target cell
+                    double cellCenterX = targetCell.getLayoutX() + targetCell.getWidth() / 2;
+                    double cellCenterY = targetCell.getLayoutY() + targetCell.getHeight() / 2;
+                    double tileCenterX = cellCenterX - getLayoutX() - TILE_SIZE / 2;
+                    double tileCenterY = cellCenterY - getLayoutY() - TILE_SIZE / 2;
+
+                    // Animate the tile movement to the center of the cell
+                    TranslateTransition transition = new TranslateTransition(Duration.millis(200), this);
+                    transition.setToX(tileCenterX);
+                    transition.setToY(tileCenterY);
+                    transition.play();
+                }
+
+                // Remove dragging effect
+                setEffect(null);
+                event.consume();
+            });
+        }
+
+        public Tile getTileOriginal() {
+            return this.tileOriginal;
+        }
+
+        public TileView() {
+            super();
+            this.letter = '\u0000';
+            draggable = true;
+
+            initValue();
+
+            setText(getTileText());
+
+            setPrefSize(TILE_SIZE, TILE_SIZE);
+            setAlignment(Pos.CENTER);
+            this.initEvents();
+        }
+
+        private void initValue() {
+            switch (Character.toUpperCase(letter)) {
+                case 'E', 'A', 'I', 'O', 'N', 'R', 'T', 'L', 'S', 'U' -> score = 1;
+                case 'D', 'G' -> score = 2;
+                case 'B', 'C', 'M', 'P' -> score = 3;
+                case 'F', 'H', 'V', 'W', 'Y' -> score = 4;
+                case 'K' -> score = 5;
+                case 'J', 'X' -> score = 8;
+                case 'Q', 'Z' -> score = 10;
+                default -> score = 0; // Blank tiles or unsupported characters
+            }
+        }
+
+
+        // setters and getters \\
+
+        public void setTile(Tile tile) {
+            if (tile != null) {
+                this.letter = tile.letter;
+                this.score = tile.score;
+                this.setStyle("-fx-background-color: lightblue; -fx-font-size: 14px;");
+            } else {
+                this.letter = '\u0000';
+            }
+            setText(getTileText());
+        }
+
+        private String getTileText() {
+            if (score == 0) {
+                return String.valueOf(letter);
+            } else {
+                return letter + " (" + score + ")";
+            }
+        }
+
+
+        public Character getLetter() {
             return letter;
         }
 
-        public void setLetter(String letter) {
+        public void setLetter(char letter) {
             this.letter = letter;
-            setText(letter);
+            setText(this.getTileText());
         }
 
 
@@ -257,37 +461,42 @@ public class GameViewController {
         }
 
         public void setColor(Color color) {
-            this.color.set(color);
+            this.color = color;
             updateColor();
         }
 
-        public ObjectProperty<Color> colorProperty() {
+        public Color getColor() {
             return color;
         }
 
         private void updateColor() {
-            setBackground(new Background(new BackgroundFill(color.get(), CornerRadii.EMPTY, Insets.EMPTY)));
+            setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
-        public static TileView TileToTileView(Tile tile) {
-            TileView tileView = new TileView(String.valueOf(tile.letter), tile.score, defoultTileBagColor);
-            return tileView;
+        public TileView TileToTileView(Tile tile) {
+            return new TileView(tile);
 
         }
 
-        public static ListView<TileView> tileListToTileViewList(List<Tile> tiles) {
-            ListView<TileView> table = new ListView<>();
-            for (
-                    Tile tile : tiles) {
-                table.getItems().add(new TileView(String.valueOf(tile.letter), tile.score, defoultTileBagColor));
-
-            }
-            return table;
+        public void setDraggable(Boolean val) {
+            draggable = val;
         }
-
     }
 
-    //function to make a color array
+    //---------------------
+
+    public ListView<TileView> tileListToTileViewList(List<Tile> tiles) {
+        ListView<TileView> table = new ListView<>();
+        for (
+                Tile tile : tiles) {
+            table.getItems().add(new TileView(tile));
+
+        }
+        return table;
+    }
+
+
+    //function to make a color array\\
     private static Color[][] getBoardColor() {
 
         Color[][] colors = new Color[15][15];
@@ -368,5 +577,18 @@ public class GameViewController {
 
         return colors;
 
+    }
+
+    @FXML
+    private void exitGame() {
+        // Implement the exitGame functionality
+        System.exit(0);
+    }
+
+
+    @FXML
+    private void homePage() {
+        // Implement the homePage functionality
+        // Code to navigate to the previous page
     }
 }

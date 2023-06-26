@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Observer;
+import java.util.PropertyPermission;
 
 public class ScrabbleViewModel implements Observer {
 
@@ -71,7 +72,11 @@ public class ScrabbleViewModel implements Observer {
         model = m;
         m.addObserver(this);
         scores = new SimpleListProperty<>(FXCollections.observableArrayList());
-        tiles = new SimpleListProperty<>(FXCollections.observableArrayList());
+        try {
+            tiles = new SimpleListProperty<>(FXCollections.observableArrayList(model.getNewPlayerTiles(7)));
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         boardProperty = new SimpleObjectProperty<>();
         myTurn = new SimpleBooleanProperty();
         gameOver = new SimpleBooleanProperty();
@@ -146,4 +151,5 @@ public class ScrabbleViewModel implements Observer {
             throw new RuntimeException(e);
         }
     }
+
 }
