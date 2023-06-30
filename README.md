@@ -76,10 +76,6 @@ The game also includes a dictionary of book-related words and phrases, so player
  * Leans on one of the existing tiles on the board.
  * Does not produce other illegal words on the board.
  
-# Our team
-- [Omer Ben Arieh](https://github.com/omerbenarieh)
-- [Ilay Cohen](https://github.com/ilaycohen2712)
+# team
 - [Shahar Zanzuri](https://github.com/Shaharzanzuri)
-- [Avital Debachar](https://github.com/avitalde13)
-
 
