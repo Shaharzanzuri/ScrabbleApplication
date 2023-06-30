@@ -15,12 +15,12 @@
                     <VBox prefHeight="100.0" spacing="21.0" styleClass="inputText">
                   <HBox alignment="TOP_CENTER">
                      <children>
-                              <Label accessibleRole="TEXT_AREA" contentDisplay="CENTER" ellipsisString="" graphicTextGap="6.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="52.0" prefWidth="83.0" styleClass="label" text="NAME :" textOverrun="WORD_ELLIPSIS">
+                              <Label accessibleRole="TEXT_AREA" contentDisplay="CENTER" ellipsisString="" graphicTextGap="6.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="67.0" styleClass="label" text="NAME :" textOverrun="WORD_ELLIPSIS">
                            <font>
                               <Font name="Poor Richard" size="19.0" />
                            </font>
                         </Label>
-                              <TextField fx:id="name" alignment="CENTER" editable="true" focusTraversable="false" promptText="name" style="-fx-background-color: seashell; -fx-border-color: tan; -fx-border-radius: 5px; -fx-background-radius: 10px;" styleClass="lable">
+                              <TextField fx:id="name" alignment="CENTER" editable="true" focusTraversable="false" maxHeight="50.0" maxWidth="300.0" minHeight="50.0" minWidth="100.0" prefHeight="50.0" prefWidth="300.0" promptText="name" style="-fx-background-color: seashell; -fx-border-color: tan; -fx-border-radius: 5px; -fx-background-radius: 10px;" styleClass="lable">
                                   <font>
                                       <Font name="Poor Richard" size="28.0" />
                                   </font>
@@ -40,9 +40,9 @@
                               <Insets left="1.0" />
                            </padding>
                         </Label>
-                              <TextField fx:id="ip" alignment="CENTER" editable="true" focusTraversable="false" prefWidth="339.0" promptText="localhost" style="-fx-background-color: seashell; -fx-background-radius: 10px; -fx-border-color: tan; -fx-border-radius: 5px;" styleClass="lable">
+                              <TextField fx:id="ip" alignment="CENTER" editable="true" focusTraversable="false" maxHeight="50.0" maxWidth="300.0" minHeight="50.0" minWidth="100.0" prefHeight="50.0" prefWidth="300.0" promptText="localhost" style="-fx-background-color: seashell; -fx-background-radius: 10px; -fx-border-color: tan; -fx-border-radius: 5px;" styleClass="lable">
                                   <font>
-                                      <Font name="Poor Richard" size="28.0" />
+                                      <Font name="Poor Richard" size="24.0" />
                                   </font>
                                   <opaqueInsets>
                                       <Insets bottom="50.0" top="50.0" />
@@ -57,9 +57,9 @@
                               <Font name="Poor Richard" size="19.0" />
                            </font>
                         </Label>
-                              <TextField fx:id="port" alignment="CENTER" editable="true" focusTraversable="false" prefHeight="36.0" promptText="8889" style="-fx-background-color: seashell; -fx-background-radius: 10px; -fx-border-color: tan; -fx-border-radius: 5px;" styleClass="lable">
+                              <TextField fx:id="port" alignment="CENTER" editable="true" focusTraversable="false" maxHeight="50.0" maxWidth="300.0" minHeight="50.0" minWidth="100.0" prefHeight="50.0" prefWidth="300.0" promptText="8887" style="-fx-background-color: seashell; -fx-background-radius: 10px; -fx-border-color: tan; -fx-border-radius: 5px;" styleClass="lable">
                                   <font>
-                                      <Font size="28.0" />
+                                      <Font name="Poor Richard" size="24.0" />
                                   </font>
                               </TextField>
                      </children>

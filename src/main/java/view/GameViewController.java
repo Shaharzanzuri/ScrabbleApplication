@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -23,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.GridView;
@@ -81,11 +83,13 @@ public class GameViewController {
     ListProperty<Tile> bindingTiles; //the binding for the vm //
     ListProperty<String> bindingScoreTable;//for all players
     ObjectProperty<Tile[][]> bindingBoard;//for all players
-    StringProperty nameBinding;
+    StringProperty nameBinding = new SimpleStringProperty();
 
     private BooleanProperty myTurn;
     private BooleanProperty gameOver;
 
+
+    ObjectProperty<TileView[][]> tileViewBoard = new SimpleObjectProperty<>();
 
     //THE INITIALIZE COLORS VALUES
     private static final Color defoultTileBardColor = Color.WHITE;
@@ -96,10 +100,10 @@ public class GameViewController {
     private static final Color tripleLetterScoreColor = Color.BLUE;
     private static final Color doubleLetterScoreColor = Color.LIGHTBLUE;
 
-    private static final String tripleWord="Triple Word";
-    private static final String doubleWord="Double Word";
-    private static final String doubleLetter="Double Letter";
-    private static final String tripleLetter="Triple Letter";
+    private static final String tripleWord = "Triple Word";
+    private static final String doubleWord = "Double Word";
+    private static final String doubleLetter = "Double Letter";
+    private static final String tripleLetter = "Triple Letter";
 
 
     private static final int TILE_SIZE = 35;
@@ -128,9 +132,11 @@ public class GameViewController {
         System.out.println("initWindow");
         initBinding();
         initSoreTable();
-        initBoard();
+//        initBoard();
+        initTileViewBoard();
         initPlayersTiles();
         initButtons();
+        setNameGuest(nameBinding.get());
         addListeners();
     }
 
@@ -152,6 +158,7 @@ public class GameViewController {
     }
 
     private void initSoreTable() {
+        scoreTableView.getItems().add(bindingScoreTable.getName());
     }
 
     private void initBoard() {
@@ -160,9 +167,6 @@ public class GameViewController {
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                 TileView tileView = new TileView(boardPrev[i][j]);
-                Cell cell = new Cell();
-                cell.setTile(tileView);
-                cell.setAlignment(Pos.CENTER);
                 board.add(tileView, i, j);
             }
         }
@@ -175,13 +179,17 @@ public class GameViewController {
             TileView tile;
             if (!bindingTiles.isEmpty()) {
                 tile = new TileView(bindingTiles.get(i));
+                tile.setColor(tile.color);
+                tile.setStyle("-fx-border-color:brown");
             } else {
                 tile = new TileView();
             }
-            Cell c = new Cell();
-            c.setDraggable(true);
-            c.setTile(tile);
-            tilesPlayerView.add(c,i,0);
+            if (i < 5) {
+                tilesPlayerView.add(tile, 0, i);
+            } else {
+                tilesPlayerView.add(tile, 1, i);
+            }
+
         }
     }
 
@@ -189,12 +197,12 @@ public class GameViewController {
     private void initButtons() {
 
         SimpleStringProperty playerName = new SimpleStringProperty();
-        if(!myTurn.get()){
+        if (!myTurn.get()) {
             submitButton.setDisable(true);
             skipTurnButton.setDisable(true);
             submitButton.setOpacity(0.5);
             skipTurnButton.setOpacity(0.5);
-        }else{
+        } else {
             submitButton.setDisable(false);
             skipTurnButton.setDisable(false);
             submitButton.setOpacity(1);
@@ -219,8 +227,8 @@ public class GameViewController {
         });
     }
 
-    private void setNameGuest(String name){
-        this.nameGuest=new Label(nameBinding.get());
+    private void setNameGuest(String name) {
+        this.nameGuest = new Label(nameBinding.get());
         this.nameGuest.setDisable(true);
     }
 
@@ -250,110 +258,123 @@ public class GameViewController {
 
     //----------
 
-    private class Cell extends StackPane {
+//    private class Cell extends StackPane {
+//
+//        private TileView tile;
+//
+//        private boolean draggable;
+//
+//
+//        public Cell() {
+//            this.tile = new TileView();
+//            tile.setStyle("-fx-background-color: transparent; -fx-font-size: 14px;");
+//            this.getChildren().add(tile);
+//            this.draggable = true;
+//            setPrefSize(TILE_SIZE, TILE_SIZE);
+//            setStyle("-fx-border-color: burlywood;-fx-font-size:14px;");
+//            initEvents();
+//        }
+//
+//        private void initEvents() {
+//            // Set the drag and drop event handlers for the cell
+//            setOnDragOver(event -> {
+//                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+//                    // Allow for moving
+//                    event.acceptTransferModes(TransferMode.MOVE);
+//                }
+//                event.consume();
+//            });
+//
+//            setOnDragEntered(event -> {
+//                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+//                    setOpacity(0.7);
+//                }
+//            });
+//
+//            setOnDragExited(event -> {
+//                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+//                    setOpacity(1.0);
+//                }
+//            });
+//
+//            setOnDragDropped(event -> {
+//                if (event.getGestureSource() != this && event.getDragboard().hasString() && this.tile.letter == '\u0000') {
+//                    // Indicate that the drag operation was successful
+//                    event.setDropCompleted(true);
+//
+//                    TileView sourceTile = (TileView) event.getGestureSource();
+//                    Cell sourceCell = (Cell) sourceTile.getParent();
+//                    sourceCell.setDraggable(true);
+//                    // Check if the dragged Tile belongs to the playerTiles or tiles
+//                    if (tilesPlayerView.getChildren().contains(sourceCell) || bindingTiles.contains(sourceCell.tile)) {
+//                        if (this == sourceCell) {
+//                            // The tile is being dragged onto the same cell, no action needed
+//                            return;
+//                        }
+//                        // Update the UI to reflect the change
+//                        System.out.println(sourceCell.tile.letter);
+//                        //playerBoardTiles.add(this);
+//                        if (this.tile.letter != '\u0000') {
+//                            System.out.println(this.tile.letter);
+//                            return;
+//                        }
+//
+//                        TileView newTile = new TileView(sourceTile.getTileOriginal());
+//
+//                        this.getChildren().clear();
+//                        this.tile.setTile(newTile.getTileOriginal());
+//                        this.getChildren().add(this.tile);
+//                        sourceCell.getChildren().clear();
+//                        sourceTile.setTile(new TileView().getTileOriginal());
+//                        this.setDraggable(true);
+//                        // Update the bindingBoard property
+//                        int row = GridPane.getRowIndex(this);
+//                        int col = GridPane.getColumnIndex(this);
+//                        Tile[][] currentBoard = bindingBoard.get();
+//                        currentBoard[row][col] = newTile.getTileOriginal();
+//                        bindingBoard.set(currentBoard);
+//                    }
+//                } else {
+//                    event.setDropCompleted(false);
+//                }
+//                event.consume();
+//            });
+//
+//
+//        }
+//
+//        public void setTile(TileView tile) {
+//            this.tile = tile;
+//            getChildren().clear();
+//            getChildren().add(this.tile);
+//        }
+//
+//
+//        public void setDraggable(Boolean val) {
+//            tile.setDraggable(val);
+//            this.draggable = val;
+//        }
+//
+//        public TileView getTile() {
+//            return tile;
+//        }
+//
+//        public boolean isDraggable() {
+//            return draggable;
+//        }
+//    }
 
-        private TileView tile;
 
-        private boolean draggable;
-
-
-        public Cell() {
-            this.tile = new TileView();
-            tile.setStyle("-fx-background-color: transparent; -fx-font-size: 14px;");
-            this.getChildren().add(tile);
-            this.draggable = true;
-            setPrefSize(TILE_SIZE, TILE_SIZE);
-            setStyle("-fx-border-color: burlywood ;");
-            initEvents();
+    public void initTileViewBoard() {
+        Color[][] colors = getBoardColor();
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                TileView tileView = new TileView(bindingBoard.get()[i][j]);
+                tileView.setColor(colors[i][j]);
+                board.add(tileView, i, j);
+            }
         }
 
-        private void initEvents() {
-            // Set the drag and drop event handlers for the cell
-            setOnDragOver(event -> {
-                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
-                    // Allow for moving
-                    event.acceptTransferModes(TransferMode.MOVE);
-                }
-                event.consume();
-            });
-
-            setOnDragEntered(event -> {
-                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
-                    setOpacity(0.7);
-                }
-            });
-
-            setOnDragExited(event -> {
-                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
-                    setOpacity(1.0);
-                }
-            });
-
-            setOnDragDropped(event -> {
-                if (event.getGestureSource() != this && event.getDragboard().hasString() && this.tile.letter == '\u0000') {
-                    // Indicate that the drag operation was successful
-                    event.setDropCompleted(true);
-
-                    TileView sourceTile = (TileView) event.getGestureSource();
-                    Cell sourceCell = (Cell) sourceTile.getParent();
-                    sourceCell.setDraggable(true);
-                    // Check if the dragged Tile belongs to the playerTiles or tiles
-                    if (tilesPlayerView.getChildren().contains(sourceCell) || bindingTiles.contains(sourceCell.tile)) {
-                        if (this == sourceCell) {
-                            // The tile is being dragged onto the same cell, no action needed
-                            return;
-                        }
-                        // Update the UI to reflect the change
-                        System.out.println(sourceCell.tile.letter);
-                        //playerBoardTiles.add(this);
-                        if (this.tile.letter != '\u0000') {
-                            System.out.println(this.tile.letter);
-                            return;
-                        }
-
-                        TileView newTile = new TileView(sourceTile.getTileOriginal());
-
-                        this.getChildren().clear();
-                        this.tile.setTile(newTile.getTileOriginal());
-                        this.getChildren().add(this.tile);
-                        sourceCell.getChildren().clear();
-                        sourceTile.setTile(new TileView().getTileOriginal());
-                        this.setDraggable(true);
-                        // Update the bindingBoard property
-                        int row = GridPane.getRowIndex(this);
-                        int col = GridPane.getColumnIndex(this);
-                        Tile[][] currentBoard = bindingBoard.get();
-                        currentBoard[row][col] = newTile.getTileOriginal();
-                        bindingBoard.set(currentBoard);
-                    }
-                } else {
-                    event.setDropCompleted(false);
-                }
-                event.consume();
-            });
-
-
-        }
-
-        public void setTile(TileView tile) {
-            this.tile = tile;
-            getChildren().clear();
-            getChildren().add(this.tile);
-        }
-
-
-        public void setDraggable(Boolean val) {
-            tile.setDraggable(val);
-            this.draggable = val;
-        }
-
-        public TileView getTile() {
-            return tile;
-        }
-
-        public boolean isDraggable() {
-            return draggable;
-        }
     }
 
 
@@ -363,7 +384,6 @@ public class GameViewController {
         private int score;
         private Color color;
         private final DropShadow shadow = new DropShadow();
-        private Cell targetCell;
         private Tile tileOriginal;
 
         private boolean draggable;
@@ -378,8 +398,9 @@ public class GameViewController {
 //            initValue();
             setText(getTileText());
             setPrefSize(TILE_SIZE, TILE_SIZE);
-            String style="-fx-background-color:tan; -fx-font-size: 24px;";
+            String style = "-fx-font-size: 24px;";
             setAlignment(Pos.CENTER);
+            setColor(this.color);
 
             this.initEvents();
         }
@@ -410,32 +431,6 @@ public class GameViewController {
                 event.consume();
             });
 
-            setOnDragDone(event -> {
-                if (event.getTransferMode() == TransferMode.MOVE && targetCell != null) {
-                    selectedTile = null;
-                    // Remove the tile from the source cell
-                    Cell sourceCell = (Cell) getParent();
-                    sourceCell.setTile(new TileView());
-                    // Add the tile to the target cell
-                    targetCell.setTile(this);
-
-                    // Center the tile in the target cell
-                    double cellCenterX = targetCell.getLayoutX() + targetCell.getWidth() / 2;
-                    double cellCenterY = targetCell.getLayoutY() + targetCell.getHeight() / 2;
-                    double tileCenterX = cellCenterX - getLayoutX() - TILE_SIZE / 2;
-                    double tileCenterY = cellCenterY - getLayoutY() - TILE_SIZE / 2;
-
-                    // Animate the tile movement to the center of the cell
-                    TranslateTransition transition = new TranslateTransition(Duration.millis(200), this);
-                    transition.setToX(tileCenterX);
-                    transition.setToY(tileCenterY);
-                    transition.play();
-                }
-
-                // Remove dragging effect
-                setEffect(null);
-                event.consume();
-            });
         }
 
         public Tile getTileOriginal() {
@@ -452,7 +447,8 @@ public class GameViewController {
             setText(getTileText());
 
             setPrefSize(TILE_SIZE, TILE_SIZE);
-            setStyle("-fx-background-color: lightblue; -fx-font-size: 14px;");
+            setStyle("-fx-font-size: 14px;");
+            setColor(defoultTileBardColor);
             setAlignment(Pos.CENTER);
             this.initEvents();
         }
@@ -478,9 +474,11 @@ public class GameViewController {
             if (tile != null) {
                 this.letter = tile.letter;
                 this.score = tile.score;
-                this.setStyle("-fx-background-color: lightblue; -fx-font-size: 14px;");
+                this.setStyle("-fx-font-size: 14px;");
+                this.setColor(this.color);
             } else {
                 this.letter = ' ';
+                this.setColor(defoultTileBardColor);
             }
             setText(getTileText());
         }
@@ -534,6 +532,7 @@ public class GameViewController {
             draggable = val;
         }
     }
+
 
     //---------------------
 
