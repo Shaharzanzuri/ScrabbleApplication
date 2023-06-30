@@ -14,7 +14,7 @@ The Book Scrabble Game is a Desktop application that allows players to create an
 The game also includes a dictionary of book-related words and phrases, so players can easily find inspiration for their next move.
 
 # Video links
-- [Demo video - will be added]()
+- [Demo video -C:\Users\zanzu\Videos\Captures\ScrabbleApplication – ScrabbleApplication.java 2023-06-30 20-19-48.mp4]()
 - [Project presentation video - will be added]()
 
 # Gantt Chart
@@ -27,6 +27,8 @@ The game also includes a dictionary of book-related words and phrases, so player
 
 # Game instructions
 <h3>Definitions:</h3>
+<img width="413" alt="image" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/dabbfd95-bb5f-4860-b1d2-fd0060f7404d">
+
 
 <h4>Tile:</h4>
 
