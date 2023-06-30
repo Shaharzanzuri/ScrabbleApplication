@@ -12,7 +12,7 @@ public interface ScrabbleModelFacade  {
     Tile[][] getBoard() throws IOException, ClassNotFoundException;
     List<Tile> getNewPlayerTiles(int amount) throws IOException, ClassNotFoundException;
     void nextTurn() throws IOException, InterruptedException;
-    List<Tile> startGame() throws IOException, ClassNotFoundException;
+    boolean startGame() throws IOException, ClassNotFoundException;
     boolean isMyTurn();
     boolean isGameOver();
     void addObserver(ScrabbleViewModel vm);
@@ -20,4 +20,6 @@ public interface ScrabbleModelFacade  {
     boolean isGameStarted();
     void disconnect();
     boolean isDisconnected();
+    boolean isHost();
+    String getName();
 }

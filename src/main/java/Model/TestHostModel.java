@@ -24,25 +24,25 @@ public class TestHostModel  {
     }
 
     public void testStartGame() throws IOException, ClassNotFoundException {
-        List<Tile> list = host.startGame();
-        if(!host.isMyTurn() || list.size() != 7|| host.getBoard() ==null)
+
+        if(!host.isMyTurn() ||  host.getBoard() ==null)
             System.out.println("Error in start game");
     }
 
     public void submitWord() throws IOException, ClassNotFoundException {
-        if(!host.submitWord("HORN",7,5, false) && host.players.get(0).score == 14)
+        if(!host.submitWord("HORN",7,5, false) && host.players.get(0).getScore() == 14)
             System.out.println("Error in submit word");
         if(host.submitWord("SDF",7,7, false))
             System.out.println("Error in submit word #2");
-        if(!host.submitWord("FA_M",5,7, true) && host.players.get(0).score == 23)
+        if(!host.submitWord("FA_M",5,7, true) && host.players.get(0).getScore() == 23)
             System.out.println("Error in submit word #3");
-        if(!host.submitWord("PASTE",9,5,false) && host.players.get(0).score == 48)
+        if(!host.submitWord("PASTE",9,5,false) && host.players.get(0).getScore() == 48)
             System.out.println("Error in submit word #3");
-        if(!host.submitWord("_OB",8,7, false) && host.players.get(0).score == 66)
+        if(!host.submitWord("_OB",8,7, false) && host.players.get(0).getScore() == 66)
             System.out.println("Error in submit word #3");
-        if(!host.submitWord("BIT",10,4, false) && host.players.get(0).score == 88)
+        if(!host.submitWord("BIT",10,4, false) && host.players.get(0).getScore() == 88)
             System.out.println("Error in submit word #3");
-        System.out.println(host.players.get(0).score);
+        System.out.println(host.players.get(0).getScore());
 
     }
 

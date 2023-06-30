@@ -25,12 +25,15 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.controlsfx.control.GridView;
 
 import java.io.IOException;
 import java.util.List;
 
 public class GameViewController {
-    ScrabbleViewModel vm;
+
+
+    ScrabbleViewModel vm = null;
     boolean host = false;
     Stage stage;
 
@@ -43,7 +46,7 @@ public class GameViewController {
     public SplitPane mainContainer;
 
     @FXML
-    private ListView<Cell> tilesPlayerView;
+    private GridPane tilesPlayerView;
 
     @FXML
     private ListView<String> scoreTableView;
@@ -54,6 +57,18 @@ public class GameViewController {
     @FXML
     private Button submitButton;
 
+    @FXML
+    private Button skipTurnButton;
+
+    @FXML
+    private Button exitButton;
+
+    @FXML
+    Button startGame;
+
+    @FXML
+    private Label nameGuest;
+
     //---------------
 
     private TileView selectedTile;
@@ -63,9 +78,10 @@ public class GameViewController {
     // binding variables for the vm \\
 
     BooleanProperty disconnect;
-    ListProperty<TileView> bindingTiles; //the binding for the vm //
+    ListProperty<Tile> bindingTiles; //the binding for the vm //
     ListProperty<String> bindingScoreTable;//for all players
     ObjectProperty<Tile[][]> bindingBoard;//for all players
+    StringProperty nameBinding;
 
     private BooleanProperty myTurn;
     private BooleanProperty gameOver;
@@ -80,10 +96,15 @@ public class GameViewController {
     private static final Color tripleLetterScoreColor = Color.BLUE;
     private static final Color doubleLetterScoreColor = Color.LIGHTBLUE;
 
-    private static final int TILE_SIZE = 40;
+    private static final String tripleWord="Triple Word";
+    private static final String doubleWord="Double Word";
+    private static final String doubleLetter="Double Letter";
+    private static final String tripleLetter="Triple Letter";
+
+
+    private static final int TILE_SIZE = 35;
 
     public GameViewController() {
-
     }
 
     public void setStage(Stage stage) {
@@ -95,11 +116,18 @@ public class GameViewController {
         this.vm = vm;
         disconnect = new SimpleBooleanProperty(false);
         disconnect.bindBidirectional(this.vm.getDisconnect());
+        disconnect.addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                Platform.runLater(() -> stage.close());
+            }
+        });
     }
+
 
     public void initWindow() {
         System.out.println("initWindow");
         initBinding();
+        initSoreTable();
         initBoard();
         initPlayersTiles();
         initButtons();
@@ -108,9 +136,10 @@ public class GameViewController {
 
 
     private void initBinding() {
+        scoreTableView.getItems().clear();
         scoreTableView.itemsProperty().bind(vm.getScores());
         bindingTiles = new SimpleListProperty<>(FXCollections.observableArrayList());
-        bindingTiles.bindBidirectional(tileListToTileViewList(vm.getTiles()).itemsProperty());
+        bindingTiles.bindBidirectional(vm.getTiles());
         bindingBoard = new SimpleObjectProperty<>();
         bindingBoard.bindBidirectional(vm.getBoard());
         myTurn = new SimpleBooleanProperty();
@@ -119,43 +148,58 @@ public class GameViewController {
         gameOver.bind(vm.getGameOver());
         disconnect = new SimpleBooleanProperty();
         disconnect.bindBidirectional(vm.getDisconnect());
+        nameBinding.bindBidirectional(vm.getName());
+    }
+
+    private void initSoreTable() {
     }
 
     private void initBoard() {
+        System.out.println("INIT BOARD:");
+        Tile[][] boardPrev = vm.getPrevBoard();
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                TileView tileView = new TileView(boardPrev[i][j]);
+                Cell cell = new Cell();
+                cell.setTile(tileView);
+                cell.setAlignment(Pos.CENTER);
+                board.add(tileView, i, j);
+            }
+        }
         bindingBoard.set(vm.getPrevBoard());
     }
 
     private void initPlayersTiles() {
-        tilesPlayerView=new ListView<>();
-        for (int i = 0; i < 7 ; i++) {
+        System.out.println("INIT PLAYERS TILES");
+        for (int i = 0; i < 7; i++) {
             TileView tile;
             if (!bindingTiles.isEmpty()) {
-                tile = new TileView(bindingTiles.get(i).getTileOriginal());
+                tile = new TileView(bindingTiles.get(i));
             } else {
                 tile = new TileView();
             }
             Cell c = new Cell();
             c.setDraggable(true);
-            tilesPlayerView.getItems().add(c);
-            tilesPlayerView.getItems().get(i).setTile(tile);
-            tilesPlayerView.getItems().get(i).setStyle("-fx-background-color: white; -fx-border-color: black;"); //-fx-border-color: black;
+            c.setTile(tile);
+            tilesPlayerView.add(c,i,0);
         }
     }
 
 
     private void initButtons() {
+
         SimpleStringProperty playerName = new SimpleStringProperty();
-
-        // Create the tabs (Exit, Minimize, Back)
-        Button exitTab = new Button("X");
-        Button minimizeTab = new Button("-");
-        Button backTab = new Button("<");
-
-        // Configure the tabs
-        exitTab.setOnAction(e -> exitGame());
-        backTab.setOnAction(e -> homePage());
-
-        // Add the tabs to the tabsBox
+        if(!myTurn.get()){
+            submitButton.setDisable(true);
+            skipTurnButton.setDisable(true);
+            submitButton.setOpacity(0.5);
+            skipTurnButton.setOpacity(0.5);
+        }else{
+            submitButton.setDisable(false);
+            skipTurnButton.setDisable(false);
+            submitButton.setOpacity(1);
+            skipTurnButton.setOpacity(1);
+        }
     }
 
     private void addListeners() {
@@ -173,6 +217,11 @@ public class GameViewController {
 
             }
         });
+    }
+
+    private void setNameGuest(String name){
+        this.nameGuest=new Label(nameBinding.get());
+        this.nameGuest.setDisable(true);
     }
 
 
@@ -207,11 +256,14 @@ public class GameViewController {
 
         private boolean draggable;
 
+
         public Cell() {
             this.tile = new TileView();
+            tile.setStyle("-fx-background-color: transparent; -fx-font-size: 14px;");
             this.getChildren().add(tile);
             this.draggable = true;
             setPrefSize(TILE_SIZE, TILE_SIZE);
+            setStyle("-fx-border-color: burlywood ;");
             initEvents();
         }
 
@@ -246,7 +298,7 @@ public class GameViewController {
                     Cell sourceCell = (Cell) sourceTile.getParent();
                     sourceCell.setDraggable(true);
                     // Check if the dragged Tile belongs to the playerTiles or tiles
-                    if (tilesPlayerView.getItems().contains(sourceCell) || bindingTiles.contains(sourceCell.tile)) {
+                    if (tilesPlayerView.getChildren().contains(sourceCell) || bindingTiles.contains(sourceCell.tile)) {
                         if (this == sourceCell) {
                             // The tile is being dragged onto the same cell, no action needed
                             return;
@@ -323,12 +375,10 @@ public class GameViewController {
             this.score = tile.score;
             this.color = defoultTileBagColor;
             draggable = true;
-            initValue();
-
-
+//            initValue();
             setText(getTileText());
-
             setPrefSize(TILE_SIZE, TILE_SIZE);
+            String style="-fx-background-color:tan; -fx-font-size: 24px;";
             setAlignment(Pos.CENTER);
 
             this.initEvents();
@@ -397,14 +447,16 @@ public class GameViewController {
             this.letter = '\u0000';
             draggable = true;
 
-            initValue();
+//            initValue();
 
             setText(getTileText());
 
             setPrefSize(TILE_SIZE, TILE_SIZE);
+            setStyle("-fx-background-color: lightblue; -fx-font-size: 14px;");
             setAlignment(Pos.CENTER);
             this.initEvents();
         }
+
 
         private void initValue() {
             switch (Character.toUpperCase(letter)) {
@@ -428,7 +480,7 @@ public class GameViewController {
                 this.score = tile.score;
                 this.setStyle("-fx-background-color: lightblue; -fx-font-size: 14px;");
             } else {
-                this.letter = '\u0000';
+                this.letter = ' ';
             }
             setText(getTileText());
         }

@@ -1,72 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="view.MainViewController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainViewController">
 
-    <BorderPane fx:id="mainContainer" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <BorderPane fx:id="mainContainer" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: wheat; -fx-border-width: 10px; -fx-border-color: firebrick;" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
         <center>
             <VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                 <HBox alignment="CENTER" prefHeight="246.0" prefWidth="700.0">
-                    <VBox prefHeight="100.0" prefWidth="100.0">
-                        <opaqueInsets>
-                            <Insets right="10.0" />
-                        </opaqueInsets>
-                        <Label prefHeight="50.0" styleClass="name" text="NAME:" />
-                        <Label prefHeight="50.0" styleClass="name"  text="IP:" />
-                        <Label prefHeight="50.0" styleClass="name" text="PORT:" />
-                    </VBox>
-                    <VBox prefHeight="100.0" spacing="21.0">
-                        <TextField fx:id="name" alignment="CENTER" editable="true" focusTraversable="false" styleClass="name" text="NAME">
-                            <font>
-                                <Font size="35.0" />
-                            </font>
-                            <opaqueInsets>
-                                <Insets bottom="20.0" />
-                            </opaqueInsets>
-                        </TextField>
-                        <TextField fx:id="ip" alignment="CENTER" editable="true" focusTraversable="false" styleClass="name" text="localhost">
-                            <font>
-                                <Font size="35.0" />
-                            </font>
-                            <opaqueInsets>
-                                <Insets bottom="50.0" top="50.0" />
-                            </opaqueInsets>
-                        </TextField>
-                        <TextField fx:id="port" alignment="CENTER" editable="true" focusTraversable="false" prefHeight="36.0" styleClass="name">
-                            <font>
-                                <Font size="35.0" />
-                            </font>
-                        </TextField>
+                    <VBox prefHeight="100.0" spacing="21.0" styleClass="inputText">
+                  <HBox alignment="TOP_CENTER">
+                     <children>
+                              <Label accessibleRole="TEXT_AREA" contentDisplay="CENTER" ellipsisString="" graphicTextGap="6.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="52.0" prefWidth="83.0" styleClass="label" text="NAME :" textOverrun="WORD_ELLIPSIS">
+                           <font>
+                              <Font name="Poor Richard" size="19.0" />
+                           </font>
+                        </Label>
+                              <TextField fx:id="name" alignment="CENTER" editable="true" focusTraversable="false" promptText="name" style="-fx-background-color: seashell; -fx-border-color: tan; -fx-border-radius: 5px; -fx-background-radius: 10px;" styleClass="lable">
+                                  <font>
+                                      <Font name="Poor Richard" size="28.0" />
+                                  </font>
+                                  <opaqueInsets>
+                                      <Insets bottom="20.0" />
+                                  </opaqueInsets>
+                              </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER">
+                     <children>
+                              <Label graphicTextGap="6.0" prefHeight="47.0" prefWidth="70.0" styleClass="label" text="IP:" textOverrun="WORD_ELLIPSIS" wrapText="true">
+                           <font>
+                              <Font name="Poor Richard" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="1.0" />
+                           </padding>
+                        </Label>
+                              <TextField fx:id="ip" alignment="CENTER" editable="true" focusTraversable="false" prefWidth="339.0" promptText="localhost" style="-fx-background-color: seashell; -fx-background-radius: 10px; -fx-border-color: tan; -fx-border-radius: 5px;" styleClass="lable">
+                                  <font>
+                                      <Font name="Poor Richard" size="28.0" />
+                                  </font>
+                                  <opaqueInsets>
+                                      <Insets bottom="50.0" top="50.0" />
+                                  </opaqueInsets>
+                              </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER">
+                     <children>
+                              <Label contentDisplay="CENTER" prefHeight="57.0" prefWidth="72.0" styleClass="label" text="PORT:">
+                           <font>
+                              <Font name="Poor Richard" size="19.0" />
+                           </font>
+                        </Label>
+                              <TextField fx:id="port" alignment="CENTER" editable="true" focusTraversable="false" prefHeight="36.0" promptText="8889" style="-fx-background-color: seashell; -fx-background-radius: 10px; -fx-border-color: tan; -fx-border-radius: 5px;" styleClass="lable">
+                                  <font>
+                                      <Font size="28.0" />
+                                  </font>
+                              </TextField>
+                     </children>
+                  </HBox>
                     </VBox>
                 </HBox>
-                <HBox fx:id="buttonHbox" alignment="CENTER" prefHeight="100.0" prefWidth="500.0">
-                    <Button fx:id="join" mnemonicParsing="false" onAction="#guestGame" prefHeight="47.0" prefWidth="142.0" styleClass="gameButtons" text="JOIN">
+                <HBox fx:id="buttonHbox" alignment="CENTER" prefHeight="100.0" prefWidth="500.0" style="-fx-alignment: center; -fx-background-position: center;" styleClass="gameButtons">
+                    <Button fx:id="join" mnemonicParsing="false" onAction="#guestGame" prefHeight="47.0" prefWidth="142.0" style="-fx-background-color: tan;" styleClass="gameButtons" text="JOIN" textFill="#9a1818">
                         <font>
                             <Font size="9.0" />
                         </font>
                     </Button>
-                    <Button fx:id="hostGAME" mnemonicParsing="false" onAction="#hostGame" prefHeight="46.0" prefWidth="145.0" styleClass="gameButtons" text="HOST" />
-                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#editParameters" prefHeight="46.0" prefWidth="142.0" styleClass="gameButtons" text="EDIT">
+                    <Button fx:id="hostGAME" mnemonicParsing="false" onAction="#hostGame" prefHeight="46.0" prefWidth="145.0" style="-fx-background-color: tan;" styleClass="gameButtons" text="HOST" textFill="#8d1111" />
+                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#editParameters" prefHeight="46.0" prefWidth="142.0" style="-fx-background-color: tan;" styleClass="gameButtons" text="EDIT" textFill="#981d1d">
                         <HBox.margin>
                             <Insets />
                         </HBox.margin>
                     </Button>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
+               </VBox.margin>
                 </HBox>
                 <DialogPane fx:id="dialog" />
             </VBox>
         </center>
         <top>
             <ImageView fitHeight="250.0" fitWidth="350.0" BorderPane.alignment="CENTER">
-                <Image url= "@../image/general/Scrabble-Logo.png" />
+                <Image url="@../image/general/Scrabble-Logo.png" />
             </ImageView>
         </top>
     </BorderPane>

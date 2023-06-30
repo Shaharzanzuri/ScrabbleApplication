@@ -212,7 +212,7 @@ public class Tile {
     //convert a Tile to string
     @Override
     public String toString() {
-        return letter + ":" + score;
+        return letter + ";" + score;
     }
 
     public static String ListToString(List<Tile> tileList) // Convert List to String
@@ -230,7 +230,7 @@ public class Tile {
         List<Tile> restoredTileList = new ArrayList<>();
         String[] tilePairs = listAsString.split(",");
         for (String tilePair : tilePairs) {
-            String[] parts = tilePair.split(":");
+            String[] parts = tilePair.split(";");
             char letter = parts[0].charAt(0);
             int score = Integer.parseInt(parts[1]);
             restoredTileList.add(new Tile(letter, score));
@@ -239,7 +239,7 @@ public class Tile {
     }
 
     public static Tile[] stringToTilesArray(String string) {
-        HashMap<Character,Integer> map= initiallizeScoreChar();
+        HashMap<Character, Integer> map = initiallizeScoreChar();
         Tile[] restoredTileList = new Tile[string.length()];
         char[] charlist = new char[string.length()];
         string.getChars(0, string.length(), charlist, 0);
@@ -255,7 +255,7 @@ public class Tile {
 
     // converts a Tiles array to string
     public static Tile[][] tilesFromString(String str) {
-        String[] rows = str.split(";");
+        String[] rows = str.split("row");
         int numRows = rows.length;
         int numCols = rows[0].split(",").length;
         Tile[][] tiles = new Tile[numRows][numCols];
@@ -263,7 +263,7 @@ public class Tile {
         for (int i = 0; i < numRows; i++) {
             String[] tileData = rows[i].split(",");
             for (int j = 0; j < numCols; j++) {
-                String[] tileParts = tileData[j].split(":");
+                String[] tileParts = tileData[j].split(";");
                 char character = tileParts[0].charAt(0);
                 int score = Integer.parseInt(tileParts[1]);
                 tiles[i][j] = new Tile(character, score);
@@ -278,10 +278,9 @@ public class Tile {
 
         for (Tile[] row : tiles) {
             for (Tile tile : row) {
-                sb.append(tile).append(",");
+                sb.append((tile).toString()).append(",");
             }
-            sb.deleteCharAt(sb.length() - 1);
-            sb.append(";");
+            sb.append("row");
         }
         sb.deleteCharAt(sb.length() - 1);
 
@@ -317,8 +316,8 @@ public class Tile {
         map.put('X', 8);
         map.put('Y', 4);
         map.put('Z', 10);
-        map.put('_',0);
-        map.put(' ',0);
+        map.put('_', 0);
+        map.put(' ', 0);
         return map;
     }
 

@@ -29,6 +29,7 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
     protected boolean myTurn;
     private boolean disconnect;
     public boolean gameStarted;
+    private final boolean isHostProp = true;
 
 
     private static final int MAX_GUESTS = 3;
@@ -46,7 +47,7 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
         guestServer.start();
         players = new ArrayList<>();
         players.add(new Player(name, null, 0));
-        board=Board.getBoard();
+        board = Board.getBoard();
         turnCounter = 0;
         numberOfPasses = 0;
         round = 0;
@@ -62,7 +63,7 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
         }
         // success - word has been placed on board
         Player p = this.players.get(this.turnCounter);
-        p.score += score;
+        p.addScore(score);
         // remove tiles from player somehow
         this.notifyAllPlayers();
         this.setChanged();
@@ -88,7 +89,7 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
             }
             if (this.players.get(this.turnCounter) == player)
                 continue;
-            this.sendMessageToGuest(player, "update");
+            this.sendMessageToGuest(player, "update:");
         }
     }
 
@@ -97,12 +98,12 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < this.players.size(); i++) {
             if (i == this.players.size() - 1) {
-                sb.append(this.players.get(i).getName()).append(":").append(this.players.get(i).score);
+                sb.append(this.players.get(i).getName()).append(";").append(this.players.get(i).getScore());
                 break;
             }
-            sb.append(this.players.get(i).getName()).append(":").append(this.players.get(i).score).append(";");
+            sb.append(this.players.get(i).getName()).append(";").append(this.players.get(i).getScore()).append(",");
         }
-        return sb.toString(); // 'Shahar:40'\n'Dane:70'\n'Sigal:254'\n
+        return sb.toString();
     }
 
     @Override
@@ -128,6 +129,11 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
     }
 
     @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
     // gets the List of Tiles for player \\
     public List<Tile> getNewPlayerTiles(int amount) throws IOException, ClassNotFoundException {
         if (bagIsEmpty)
@@ -136,6 +142,11 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
         list = board.setTilesPlayer(list);
         return list;
 
+    }
+
+    @Override
+    public boolean isHost() {
+        return isHostProp;
     }
 
     @Override
@@ -162,10 +173,12 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
     }
 
     @Override
-    public List<Tile> startGame() throws IOException, ClassNotFoundException {
+    public boolean startGame() throws IOException, ClassNotFoundException {
         board = Board.getBoard();
         Collections.shuffle(players);
         gameStarted = true;
+        this.setChanged();
+        this.notifyObservers();
         for (int i = 0; i < this.players.size(); i++) {
             if (players.get(i).getName().equals(this.name))
                 continue;
@@ -181,22 +194,29 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
             myTurn = true;
             this.setChanged();
             this.notifyObservers();
-            return getNewPlayerTiles(7);
         }
         this.sendMessageToGuest(players.get(0), "my-turn"); // if it's a guest turn
         this.setChanged();
         this.notifyObservers();
-        return getNewPlayerTiles(7);
-
+        return true;
     }
 
     //sends massage to guest \\
     private void sendMessageToGuest(Player player, String message) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(player.socket.getOutputStream()));
-        message = message + "\n";
-        bw.write(message);
-        bw.flush();
+
+        if (player.getSocket() != null) {
+            synchronized (player.getSocket()) {
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(player.getSocket().getOutputStream()));
+                message = message + "\n";
+                bw.write(message);
+                bw.flush();
+            }
+
+        } else {
+            System.out.println("the massage didnt send to player:" + player.getName());
+        }
     }
+
 
     @Override
     public boolean isGameStarted() {
@@ -230,7 +250,7 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
                 continue;
             }
             try {
-                this.sendMessageToGuest( this.players.get(i),"game-over");
+                this.sendMessageToGuest(this.players.get(i), "game-over");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -255,14 +275,12 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
 
     @Override
     public void disconnect() {
-        disconnect=true;
+        disconnect = true;
         this.setChanged();
         this.notifyObservers();
-        for(int i=0;i<players.size();i++){
-            if(this.players.get(i).getName().equals(this.name))
-                continue;
+        for (int i = 0; i < players.size(); i++) {
             try {
-                this.sendMessageToGuest(this.players.get(i),"disconnect");
+                this.sendMessageToGuest(this.players.get(i), "disconnect");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -283,15 +301,14 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
     }
 
 
-    public boolean ValidName(String name){ //checks valid name set
-        for(Player player:players){
-            if(Objects.equals(player.getName(), name)){
+    public boolean ValidName(String name) { //checks valid name set
+        for (Player player : players) {
+            if (Objects.equals(player.getName(), name)) {
                 return false;
             }
         }
         return true;
     }
-
 
 
     public static String mapToString(HashMap<String, Integer> hashMap) {// transform the Hashmap score to string

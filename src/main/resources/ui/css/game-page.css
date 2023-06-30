@@ -1,0 +1,58 @@
+
+.mainContainer{
+    -fx-background-image: url("../images/general/background.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
+#scoreTableView{
+    -fx-min-width: 200px;
+    -fx-max-width: 200px;
+    -fx-background-color: transparent;
+}
+
+#tilesPlayerView{
+    -fx-background-color: transparent;
+}
+
+.list-view:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-color: transparent;
+}
+
+.list-cell:focused {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
+}
+
+.list-view{
+    -fx-background-color: transparent;
+}
+
+.grid-pane {
+    -fx-background-color:tan;
+}
+
+.button{
+    -fx-min-width: 100px;
+    -fx-max-width: 100px;
+    -fx-font-size: 18px;
+    -fx-background-radius: 10px;
+}
+
+.vbox {
+    -fx-min-width: 150px;
+    -fx-max-width: 150px;
+
+}
+
+

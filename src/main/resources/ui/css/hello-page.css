@@ -1,0 +1,76 @@
+
+.mainContainer{
+    -fx-background-image: url("../images/general/background.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
+
+
+#form{
+    -fx-background-color: rgba(10, 10, 10, 0.2);
+    -fx-background-radius: 25px;
+    -fx-min-width: 500px;
+    -fx-max-width: 500px;
+}
+
+#formHbox{
+    -fx-min-width: 500px;
+    -fx-max-width: 500px;
+    -fx-alignment: center;
+}
+
+#buttonHbox{
+    -fx-background-width: 500px;
+    -fx-spacing: 25px;
+}
+
+#editButton{
+    -fx-text-fill: white;
+}
+
+
+.button{
+    -fx-width: 250px;
+    -fx-height: 125px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-visible: false;
+    -fx-background-insets: 0;
+}
+
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.9), 10, 0, 0, 0);
+}
+
+.gameButtons{
+    -fx-min-width: 100px;
+    -fx-max-width: 100px;
+    -fx-font-size: 20px;
+    -fx-background-radius: 10px;
+}
+
+#editButton{
+    -fx-text-fill: black;
+}
+
+
+.label {
+    -fx-text-fill: black;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+
+
+.dialog-pane{
+    -fx-min-width: 500px;
+    -fx-max-width: 500px;
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-alignment: center;
+}
+
+.inputText {
+size:40px;
+}

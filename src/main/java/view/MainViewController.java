@@ -67,9 +67,9 @@ public class MainViewController {
     public Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = null;
         String fxmlPath = "src/main/resources/ui/fxml/main-page.fxml";
-        fxmlLoader = new FXMLLoader(new File(fxmlPath).toURI().toURL());
-        Scene scene = new Scene(fxmlLoader.load(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight());
-        scene.getStylesheets().add(getClass().getResource("/ui/css/main-page.css").toExternalForm());
+        fxmlLoader = new FXMLLoader(new File(fxmlPath).toURL());
+        Scene scene = new Scene(fxmlLoader.load());
+//        scene.getStylesheets().add(getClass().getResource("/ui/css/main-page.css").toExternalForm());
         return scene;
     }
 
@@ -79,11 +79,11 @@ public class MainViewController {
         String fxmlPath = "src/main/resources/ui/fxml/game_view.fxml";
         fxmlLoader = new FXMLLoader(new File(fxmlPath).toURL());
         Scene scene = new Scene(fxmlLoader.load());
-//        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/ui/css/board-page.css")).toExternalForm());
+       scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/ui/css/game-page.css")).toExternalForm());
         GameViewController bc = fxmlLoader.getController();
         bc.setStage(stage);
         bc.setViewModel(vm);
-        bc.initWindow();
+
         stage.setOnCloseRequest((WindowEvent event) -> {
             event.consume(); // Consume the event to prevent automatic window closure
 
@@ -101,6 +101,7 @@ public class MainViewController {
         });
         stage.setScene(scene);
         stage.show();
+        bc.initWindow();
 //        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     }
 
@@ -158,7 +159,4 @@ public class MainViewController {
     }
 
 
-    public void setPage(Stage stage) {
-        this.stage=stage;
-    }
 }
