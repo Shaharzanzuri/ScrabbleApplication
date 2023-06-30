@@ -1,6 +1,5 @@
 
 .mainContainer{
-    -fx-background-image: url("../images/general/background.png");
     -fx-background-size: cover;
     -fx-background-position: center center;
     -fx-background-repeat: no-repeat;

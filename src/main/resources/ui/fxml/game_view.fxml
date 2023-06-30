@@ -7,53 +7,63 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameViewController">
-    <BorderPane prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: wheat; -fx-border-width: 10px; -fx-border-color: firebrick;" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameViewController">
+    <BorderPane prefHeight="400.0" prefWidth="700.0"
+                style="-fx-background-color: wheat; -fx-border-width: 10px; -fx-border-color: firebrick;"
+                styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+                xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
         <left>
-            <VBox alignment="CENTER" prefHeight="300.0" prefWidth="144.0" style="-fx-alignment: center; -fx-background-color: tan; -fx-background-position: center; -fx-border-color: papayawhip; -fx-border-image-width: 5;" BorderPane.alignment="BOTTOM_LEFT">
-            <Label lineSpacing="2.0" text="Players Tiles:" textFill="#0b693b" underline="true">
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Poor Richard" size="19.0" />
-               </font>
-            </Label>
-                <GridPane fx:id="tilesPlayerView" accessibleRole="TABLE_CELL" alignment="TOP_CENTER" blendMode="ADD" gridLinesVisible="true" maxHeight="54.0" maxWidth="115.0" minHeight="10.0" minWidth="10.0" prefHeight="54.0" prefWidth="115.0" styleClass="list-cell" VBox.vgrow="NEVER">
+            <VBox alignment="CENTER" prefHeight="300.0" prefWidth="144.0"
+                  style="-fx-alignment: center; -fx-background-color: tan; -fx-background-position: center; -fx-border-color: papayawhip; -fx-border-image-width: 5;"
+                  BorderPane.alignment="BOTTOM_LEFT">
+                <Label lineSpacing="2.0" text="Players Tiles:" textFill="#0b693b" underline="true">
+                    <VBox.margin>
+                        <Insets bottom="5.0"/>
+                    </VBox.margin>
+                    <font>
+                        <Font name="Poor Richard" size="19.0"/>
+                    </font>
+                </Label>
+                <GridPane fx:id="tilesPlayerView" accessibleRole="TABLE_CELL" alignment="TOP_CENTER" blendMode="ADD"
+                          gridLinesVisible="true" maxHeight="54.0" maxWidth="115.0" minHeight="10.0" minWidth="10.0"
+                          prefHeight="54.0" prefWidth="115.0" styleClass="list-cell" VBox.vgrow="NEVER">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0"/>
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints/>
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
+                        <Cursor fx:constant="OPEN_HAND"/>
                     </cursor>
                     <BorderPane.margin>
-                        <Insets bottom="20.0" left="5.0" right="5.0" top="10.0" />
+                        <Insets bottom="20.0" left="5.0" right="5.0" top="10.0"/>
                     </BorderPane.margin>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-                </GridPane>
-            <Label alignment="CENTER" text="Scores:" textFill="#477749" underline="true" wrapText="true">
-               <font>
-                  <Font name="Poor Richard" size="20.0" />
-               </font>
-            </Label>
-                <ListView fx:id="scoreTableView" prefHeight="96.0" prefWidth="101.0" style="-fx-background-color: papayawhip; -fx-border-color: green;" styleClass="listView">
                     <VBox.margin>
-                        <Insets bottom="3.0" left="3.0" right="3.0" top="5.0" />
+                        <Insets/>
+                    </VBox.margin>
+                </GridPane>
+                <Label alignment="CENTER" text="Scores:" textFill="#477749" underline="true" wrapText="true">
+                    <font>
+                        <Font name="Poor Richard" size="20.0"/>
+                    </font>
+                </Label>
+                <ListView fx:id="scoreTableView" prefHeight="96.0" prefWidth="101.0"
+                          style="-fx-background-color: papayawhip; -fx-border-color: green;" styleClass="listView">
+                    <VBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="5.0"/>
                     </VBox.margin>
                 </ListView>
-            <padding>
-               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-            </padding>
+                <padding>
+                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+                </padding>
             </VBox>
         </left>
         <center>
@@ -62,410 +72,723 @@
             <BorderPane style="-fx-alignment: CENTER; -fx-background-color: BEIGE;">
                 <top>
                     <HBox alignment="TOP_CENTER" prefHeight="28.0" BorderPane.alignment="TOP_CENTER">
-                        <Button fx:id="submitButton" alignment="CENTER" contentDisplay="CENTER" layoutX="540.0" layoutY="724.0" mnemonicParsing="false" onAction="#submitButtonClicked" style="-fx-background-color: darkseagreen;" styleClass="Button" text="Submit" textFill="#30672b">
+                        <Button fx:id="submitButton" alignment="CENTER" contentDisplay="CENTER" layoutX="540.0"
+                                layoutY="724.0" mnemonicParsing="false" onAction="#submitButtonClicked"
+                                style="-fx-background-color: darkseagreen;" styleClass="Button" text="Submit"
+                                textFill="#30672b">
                             <font>
-                                <Font name="Poor Richard" size="18.0" />
+                                <Font name="Poor Richard" size="18.0"/>
                             </font>
                             <cursor>
-                                <Cursor fx:constant="CLOSED_HAND" />
+                                <Cursor fx:constant="CLOSED_HAND"/>
                             </cursor>
-                     <HBox.margin>
-                        <Insets left="3.0" right="3.0" />
-                     </HBox.margin>
+                            <HBox.margin>
+                                <Insets left="3.0" right="3.0"/>
+                            </HBox.margin>
                         </Button>
-                        <Button fx:id="skipTurnButton" alignment="CENTER" contentDisplay="CENTER" layoutX="783.0" layoutY="724.0" mnemonicParsing="false" onAction="#skipTurn" style="-fx-background-color: darkseagreen;" styleClass="Button" text="Skip Turn" textFill="#386b33">
+                        <Button fx:id="skipTurnButton" alignment="CENTER" contentDisplay="CENTER" layoutX="783.0"
+                                layoutY="724.0" mnemonicParsing="false" onAction="#skipTurn"
+                                style="-fx-background-color: darkseagreen;" styleClass="Button" text="Skip Turn"
+                                textFill="#386b33">
                             <font>
-                                <Font name="Poor Richard" size="18.0" />
+                                <Font name="Poor Richard" size="18.0"/>
                             </font>
                             <cursor>
-                                <Cursor fx:constant="CLOSED_HAND" />
+                                <Cursor fx:constant="CLOSED_HAND"/>
                             </cursor>
-                     <HBox.margin>
-                        <Insets left="3.0" right="3.0" />
-                     </HBox.margin>
+                            <HBox.margin>
+                                <Insets left="3.0" right="3.0"/>
+                            </HBox.margin>
                         </Button>
-                        <Button fx:id="exitButton" layoutX="1170.0" layoutY="56.0" mnemonicParsing="false" onAction="#exitGame" style="-fx-background-color: darkseagreen;" styleClass="ExitButton" text="Exit" textFill="#2e5c3e">
+                        <Button fx:id="exitButton" layoutX="1170.0" layoutY="56.0" mnemonicParsing="false"
+                                onAction="#exitGame" style="-fx-background-color: darkseagreen;" styleClass="ExitButton"
+                                text="Exit" textFill="#2e5c3e">
                             <font>
-                                <Font name="Poor Richard" size="18.0" />
+                                <Font name="Poor Richard" size="18.0"/>
                             </font>
-                     <HBox.margin>
-                        <Insets left="3.0" right="3.0" />
-                     </HBox.margin>
+                            <HBox.margin>
+                                <Insets left="3.0" right="3.0"/>
+                            </HBox.margin>
                         </Button>
                         <BorderPane.margin>
-                            <Insets bottom="5.0" left="8.0" right="8.0" top="5.0" />
+                            <Insets bottom="5.0" left="8.0" right="8.0" top="5.0"/>
                         </BorderPane.margin>
                     </HBox>
                 </top>
                 <center>
-                    <GridPane fx:id="board" accessibleRole="TABLE_VIEW" alignment="CENTER" gridLinesVisible="true" prefHeight="220.0" prefWidth="373.0" snapToPixel="true" style="-fx-alignment: center; -fx-background-position: center;" styleClass="grid-pane" VBox.vgrow="SOMETIMES">
+                    <GridPane fx:id="board" alignment="CENTER" gridLinesVisible="true" prefHeight="220.0"
+                              prefWidth="373.0" snapToPixel="true"
+                              style="-fx-alignment: center; -fx-background-position: center;" styleClass="grid-pane"
+                              VBox.vgrow="SOMETIMES">
                         <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                         </columnConstraints>
                         <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                         </rowConstraints>
                         <cursor>
-                            <Cursor fx:constant="OPEN_HAND" />
+                            <Cursor fx:constant="OPEN_HAND"/>
                         </cursor>
                         <BorderPane.margin>
-                            <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
+                            <Insets bottom="30.0" left="30.0" right="30.0" top="10.0"/>
                         </BorderPane.margin>
-                  <children>
-                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="14" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER">
-                        <image>
-                           <Image url="@../image/general/trippleWord.jpg" />
-                        </image>
-                        <GridPane.margin>
-                           <Insets />
-                        </GridPane.margin>
-                        <viewport>
-                           <Rectangle2D />
-                        </viewport>
-                     </ImageView>
-                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
-                        <image>
-                           <Image url="@../image/general/trippleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="222.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="14">
-                        <image>
-                           <Image url="@../image/general/trippleWord.jpg" />
-                        </image>
-                        <viewport>
-                           <Rectangle2D />
-                        </viewport>
-                     </ImageView>
-                     <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="185.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7">
-                        <image>
-                           <Image url="@../image/general/trippleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="222.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="14">
-                        <image>
-                           <Image url="@../image/general/trippleWord.jpg" />
-                        </image>
-                        <viewport>
-                           <Rectangle2D />
-                        </viewport>
-                     </ImageView>
-                     <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../image/general/trippleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" styleClass="double-letter" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7">
-                        <image>
-                           <Image url="@../image/general/star.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="14">
-                        <image>
-                           <Image url="@../image/general/trippleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="14">
-                        <image>
-                           <Image url="@../image/general/trippleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="310.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="11">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="14">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="14">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="310.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="11">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="185.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="12">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="12">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="11">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="360.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="3">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="360.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="7">
-                        <image>
-                           <Image url="@../image/general/trippleWord.jpg" />
-                        </image>
-                        <viewport>
-                           <Rectangle2D />
-                        </viewport>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="360.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="7">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="285.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="7">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="8">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="8">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="6">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="8">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="8">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="6">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="6">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="2">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="3">
-                        <image>
-                           <Image url="@../image/general/doubleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="135.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="9" GridPane.rowIndex="1">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="135.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="9" GridPane.rowIndex="13">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="135.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="5" GridPane.rowIndex="13">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="135.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="9" GridPane.rowIndex="9">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="135.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="9" GridPane.rowIndex="5">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="135.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="5" GridPane.rowIndex="9">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="135.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="5" GridPane.rowIndex="5">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="235.0" layoutY="201.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="1" GridPane.rowIndex="9">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="13" GridPane.rowIndex="9">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" styleClass="tripple-letter" GridPane.columnIndex="13" GridPane.rowIndex="5">
-                        <image>
-                           <Image url="@../image/general/trippleLetter.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="30.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="44.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="4" GridPane.rowIndex="10">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="44.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="4" GridPane.rowIndex="4">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="44.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="110.0" layoutY="156.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="10" GridPane.rowIndex="10">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="1" GridPane.rowIndex="13">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="2" GridPane.rowIndex="12">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="3" GridPane.rowIndex="11">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="44.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="10" GridPane.rowIndex="4">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="44.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="11" GridPane.rowIndex="3">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="44.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="12" GridPane.rowIndex="2">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="60.0" layoutY="44.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="13" GridPane.rowIndex="1">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="156.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="13" GridPane.rowIndex="13">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="156.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="12" GridPane.rowIndex="12">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="156.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="double-word" GridPane.columnIndex="11" GridPane.rowIndex="11">
-                        <image>
-                           <Image url="@../image/general/doubleWord.jpg" />
-                        </image>
-                     </ImageView>
-                  </children>
+                        <children>
+                            <StackPane GridPane.columnIndex="14" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES"
+                                       GridPane.valignment="CENTER">
+                                <GridPane.margin>
+                                    <Insets/>
+                                </GridPane.margin>
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="tripple-word">
+                                        <image>
+                                            <Image url="@../image/general/trippleWord.jpg"/>
+                                        </image>
+                                        <viewport>
+                                            <Rectangle2D/>
+                                        </viewport>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES"
+                                       GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                                <children>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/trippleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.rowIndex="7">
+                                <children>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/trippleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="14" GridPane.rowIndex="14">
+                                <children>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-word">
+                                        <image>
+                                            <Image url="@../image/general/trippleWord.jpg"/>
+                                        </image>
+                                        <viewport>
+                                            <Rectangle2D/>
+                                        </viewport>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane>
+                                <children>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-word">
+                                        <image>
+                                            <Image url="@../image/general/trippleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES"
+                                       GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="double-letter">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="7">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/star.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.rowIndex="14">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-word">
+                                        <image>
+                                            <Image url="@../image/general/trippleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="14">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-word">
+                                        <image>
+                                            <Image url="@../image/general/trippleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="12">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.rowIndex="3">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.rowIndex="11">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="14">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="12" GridPane.rowIndex="14">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="11">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="12">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="8" GridPane.rowIndex="12">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="14" GridPane.rowIndex="11">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="14" GridPane.rowIndex="3">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="14" GridPane.rowIndex="7">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/trippleWord.jpg"/>
+                                        </image>
+                                        <viewport>
+                                            <Rectangle2D/>
+                                        </viewport>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="11" GridPane.rowIndex="7">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="7">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="6">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="8">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="12" GridPane.rowIndex="8">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="12" GridPane.rowIndex="6">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="8" GridPane.rowIndex="8">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="8">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="8" GridPane.rowIndex="6">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="6">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="8" GridPane.rowIndex="2">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="2">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="3">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <image>
+                                            <Image url="@../image/general/doubleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES"
+                                       GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="9" GridPane.rowIndex="1">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="9" GridPane.rowIndex="13">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="13">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="9" GridPane.rowIndex="9">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="9" GridPane.rowIndex="5">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="9">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="5">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="9">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="13" GridPane.rowIndex="9">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="13" GridPane.rowIndex="5">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                                               styleClass="tripple-letter">
+                                        <image>
+                                            <Image url="@../image/general/trippleLetter.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES"
+                                       GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="10">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="4">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="10" GridPane.rowIndex="10">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="13">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="12">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="11">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="10" GridPane.rowIndex="4">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="11" GridPane.rowIndex="3">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="12" GridPane.rowIndex="2">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="13" GridPane.rowIndex="1">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="13" GridPane.rowIndex="13">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="12" GridPane.rowIndex="12">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                            <StackPane GridPane.columnIndex="11" GridPane.rowIndex="11">
+                                <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT"
+                                               pickOnBounds="true" preserveRatio="true" styleClass="double-word">
+                                        <image>
+                                            <Image url="@../image/general/doubleWord.jpg"/>
+                                        </image>
+                                    </ImageView>
+                                </children>
+                            </StackPane>
+                        </children>
 
                     </GridPane>
                 </center>
@@ -476,22 +799,23 @@
                 <children>
                     <ImageView fitHeight="60.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../image/general/Scrabble-Logo.png" />
+                            <Image url="@../image/general/Scrabble-Logo.png"/>
                         </image>
                     </ImageView>
-                    <Label fx:id="nameGuest" alignment="CENTER" lineSpacing="3.0" styleClass="player-name" text="shahar" textAlignment="CENTER" textFill="#821515" HBox.hgrow="SOMETIMES">
+                    <Label fx:id="nameGuest" alignment="CENTER" lineSpacing="3.0" styleClass="player-name" text="shahar"
+                           textAlignment="CENTER" textFill="#821515" HBox.hgrow="SOMETIMES">
                         <HBox.margin>
-                            <Insets left="8.0" top="10.0" />
+                            <Insets left="8.0" top="10.0"/>
                         </HBox.margin>
                         <font>
-                            <Font name="Poor Richard" size="22.0" />
+                            <Font name="Poor Richard" size="22.0"/>
                         </font>
                     </Label>
                 </children>
             </HBox>
         </top>
         <bottom>
-            <Label text="© sz " textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" BorderPane.alignment="CENTER" />
+            <Label text="© sz " textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" BorderPane.alignment="CENTER"/>
         </bottom>
     </BorderPane>
 

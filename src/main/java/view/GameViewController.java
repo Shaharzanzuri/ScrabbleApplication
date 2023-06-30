@@ -28,6 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.GridView;
+import org.controlsfx.control.cell.ImageGridCell;
 
 import java.io.IOException;
 import java.util.List;
@@ -230,6 +231,7 @@ public class GameViewController {
     private void setNameGuest(String name) {
         this.nameGuest = new Label(nameBinding.get());
         this.nameGuest.setDisable(true);
+        nameGuest.setDisable(false);
     }
 
 
@@ -254,116 +256,6 @@ public class GameViewController {
     }
 
 
-    // helper classes \\
-
-    //----------
-
-//    private class Cell extends StackPane {
-//
-//        private TileView tile;
-//
-//        private boolean draggable;
-//
-//
-//        public Cell() {
-//            this.tile = new TileView();
-//            tile.setStyle("-fx-background-color: transparent; -fx-font-size: 14px;");
-//            this.getChildren().add(tile);
-//            this.draggable = true;
-//            setPrefSize(TILE_SIZE, TILE_SIZE);
-//            setStyle("-fx-border-color: burlywood;-fx-font-size:14px;");
-//            initEvents();
-//        }
-//
-//        private void initEvents() {
-//            // Set the drag and drop event handlers for the cell
-//            setOnDragOver(event -> {
-//                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
-//                    // Allow for moving
-//                    event.acceptTransferModes(TransferMode.MOVE);
-//                }
-//                event.consume();
-//            });
-//
-//            setOnDragEntered(event -> {
-//                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
-//                    setOpacity(0.7);
-//                }
-//            });
-//
-//            setOnDragExited(event -> {
-//                if (event.getGestureSource() != this && event.getDragboard().hasString()) {
-//                    setOpacity(1.0);
-//                }
-//            });
-//
-//            setOnDragDropped(event -> {
-//                if (event.getGestureSource() != this && event.getDragboard().hasString() && this.tile.letter == '\u0000') {
-//                    // Indicate that the drag operation was successful
-//                    event.setDropCompleted(true);
-//
-//                    TileView sourceTile = (TileView) event.getGestureSource();
-//                    Cell sourceCell = (Cell) sourceTile.getParent();
-//                    sourceCell.setDraggable(true);
-//                    // Check if the dragged Tile belongs to the playerTiles or tiles
-//                    if (tilesPlayerView.getChildren().contains(sourceCell) || bindingTiles.contains(sourceCell.tile)) {
-//                        if (this == sourceCell) {
-//                            // The tile is being dragged onto the same cell, no action needed
-//                            return;
-//                        }
-//                        // Update the UI to reflect the change
-//                        System.out.println(sourceCell.tile.letter);
-//                        //playerBoardTiles.add(this);
-//                        if (this.tile.letter != '\u0000') {
-//                            System.out.println(this.tile.letter);
-//                            return;
-//                        }
-//
-//                        TileView newTile = new TileView(sourceTile.getTileOriginal());
-//
-//                        this.getChildren().clear();
-//                        this.tile.setTile(newTile.getTileOriginal());
-//                        this.getChildren().add(this.tile);
-//                        sourceCell.getChildren().clear();
-//                        sourceTile.setTile(new TileView().getTileOriginal());
-//                        this.setDraggable(true);
-//                        // Update the bindingBoard property
-//                        int row = GridPane.getRowIndex(this);
-//                        int col = GridPane.getColumnIndex(this);
-//                        Tile[][] currentBoard = bindingBoard.get();
-//                        currentBoard[row][col] = newTile.getTileOriginal();
-//                        bindingBoard.set(currentBoard);
-//                    }
-//                } else {
-//                    event.setDropCompleted(false);
-//                }
-//                event.consume();
-//            });
-//
-//
-//        }
-//
-//        public void setTile(TileView tile) {
-//            this.tile = tile;
-//            getChildren().clear();
-//            getChildren().add(this.tile);
-//        }
-//
-//
-//        public void setDraggable(Boolean val) {
-//            tile.setDraggable(val);
-//            this.draggable = val;
-//        }
-//
-//        public TileView getTile() {
-//            return tile;
-//        }
-//
-//        public boolean isDraggable() {
-//            return draggable;
-//        }
-//    }
-
 
     public void initTileViewBoard() {
         Color[][] colors = getBoardColor();
@@ -378,13 +270,14 @@ public class GameViewController {
     }
 
 
-    public class TileView extends Label {
+    public class TileView extends ImageGridCell {
 
         private char letter;
         private int score;
         private Color color;
         private final DropShadow shadow = new DropShadow();
         private Tile tileOriginal;
+
 
         private boolean draggable;
 
@@ -393,16 +286,12 @@ public class GameViewController {
             tileOriginal = tile;
             this.letter = tile.letter;
             this.score = tile.score;
-            this.color = defoultTileBagColor;
             draggable = true;
-//            initValue();
-            setText(getTileText());
-            setPrefSize(TILE_SIZE, TILE_SIZE);
-            String style = "-fx-font-size: 24px;";
             setAlignment(Pos.CENTER);
-            setColor(this.color);
-
+            initValue();
+            initImageValues();
             this.initEvents();
+
         }
 
         private void initEvents() {
@@ -443,10 +332,8 @@ public class GameViewController {
             draggable = true;
 
 //            initValue();
+            initImageValues();
 
-            setText(getTileText());
-
-            setPrefSize(TILE_SIZE, TILE_SIZE);
             setStyle("-fx-font-size: 14px;");
             setColor(defoultTileBardColor);
             setAlignment(Pos.CENTER);
@@ -464,6 +351,39 @@ public class GameViewController {
                 case 'J', 'X' -> score = 8;
                 case 'Q', 'Z' -> score = 10;
                 default -> score = 0; // Blank tiles or unsupported characters
+            }
+        }
+
+
+        private void initImageValues(){
+            switch (Character.toLowerCase(letter)){
+                case' '->setItem(null);
+                case'a'->setItem(new Image("ui/image/general/bag/a.jpg"));
+                case'b'->setItem(new Image("ui/image/general/bag/b.jpg"));
+                case'c'->setItem(new Image("ui/image/general/bag/c.jpg"));
+                case'd'->setItem(new Image("ui/image/general/bag/d.jpg"));
+                case'e'->setItem(new Image("ui/image/general/bag/e.jpg"));
+                case'f'->setItem(new Image("ui/image/general/bag/f.jpg"));
+                case'g'->setItem(new Image("ui/image/general/bag/g.jpg"));
+                case'h'->setItem(new Image("ui/image/general/bag/h.jpg"));
+                case'i'->setItem(new Image("ui/image/general/bag/i.jpg"));
+                case'j'->setItem(new Image("ui/image/general/bag/j.jpg"));
+                case'k'->setItem(new Image("ui/image/general/bag/k.jpg"));
+                case'l'->setItem(new Image("ui/image/general/bag/l.jpg"));
+                case'm'->setItem(new Image("ui/image/general/bag/m.jpg"));
+                case'n'->setItem(new Image("ui/image/general/bag/n.jpg"));
+                case'o'->setItem(new Image("ui/image/general/bag/o.jpg"));
+                case'p'->setItem(new Image("ui/image/general/bag/p.jpg"));
+                case'q'->setItem(new Image("ui/image/general/bag/q.jpg"));
+                case'r'->setItem(new Image("ui/image/general/bag/r.jpg"));
+                case's'->setItem(new Image("ui/image/general/bag/s.jpg"));
+                case't'->setItem(new Image("ui/image/general/bag/t.jpg"));
+                case'u'->setItem(new Image("ui/image/general/bag/u.jpg"));
+                case'v'->setItem(new Image("ui/image/general/bag/v.jpg"));
+                case'w'->setItem(new Image("ui/image/general/bag/w.jpg"));
+                case'x'->setItem(new Image("ui/image/general/bag/x.jpg"));
+                case'y'->setItem(new Image("ui/image/general/bag/y.jpg"));
+                case'z'->setItem(new Image("ui/image/general/bag/z.jpg"));
             }
         }
 
