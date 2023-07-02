@@ -37,7 +37,7 @@
                         <Font name="Poor Richard" size="19.0" />
                     </font>
                 </Label>
-                <GridPane fx:id="tilesPlayerView" accessibleRole="TABLE_CELL" alignment="TOP_CENTER" blendMode="ADD" gridLinesVisible="true" maxHeight="146.0" maxWidth="214.0" minHeight="10.0" minWidth="10.0" prefHeight="118.0" prefWidth="214.0" styleClass="list-cell" VBox.vgrow="NEVER">
+                <GridPane fx:id="tilesPlayerView" accessibleRole="TABLE_CELL" alignment="TOP_CENTER" gridLinesVisible="true" maxHeight="146.0" maxWidth="214.0" minHeight="10.0" minWidth="10.0" prefHeight="118.0" prefWidth="214.0" styleClass="list-cell" VBox.vgrow="NEVER">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />

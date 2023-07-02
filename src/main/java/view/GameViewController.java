@@ -180,16 +180,16 @@ public class GameViewController {
             TileView tile;
             if (!bindingTiles.isEmpty()) {
                 tile = new TileView(bindingTiles.get(i));
-                tile.setColor(tile.color);
-                tile.setStyle("-fx-border-color:brown");
+                tile.initImageValues();
             } else {
                 tile = new TileView();
             }
             if (i < 5) {
-                tilesPlayerView.add(tile, 0, i);
+                tilesPlayerView.add(tile, i, 0);
             } else {
-                tilesPlayerView.add(tile, 1, i);
+                tilesPlayerView.add(tile, i, 1);
             }
+
 
         }
     }
@@ -270,13 +270,14 @@ public class GameViewController {
     }
 
 
-    public class TileView extends ImageGridCell {
+    public class TileView extends StackPane{
 
         private char letter;
         private int score;
         private Color color;
         private final DropShadow shadow = new DropShadow();
         private Tile tileOriginal;
+        private Image image=null;
 
 
         private boolean draggable;
@@ -300,9 +301,6 @@ public class GameViewController {
                 if (!draggable)
                     return;
                 Dragboard db = startDragAndDrop(TransferMode.MOVE);
-                ClipboardContent content = new ClipboardContent();
-                content.putString(getText());
-                db.setContent(content);
                 selectedTile = this;
 
                 // Add dragging effect
@@ -357,34 +355,38 @@ public class GameViewController {
 
         private void initImageValues(){
             switch (Character.toLowerCase(letter)){
-                case' '->setItem(null);
-                case'a'->setItem(new Image("ui/image/general/bag/a.jpg"));
-                case'b'->setItem(new Image("ui/image/general/bag/b.jpg"));
-                case'c'->setItem(new Image("ui/image/general/bag/c.jpg"));
-                case'd'->setItem(new Image("ui/image/general/bag/d.jpg"));
-                case'e'->setItem(new Image("ui/image/general/bag/e.jpg"));
-                case'f'->setItem(new Image("ui/image/general/bag/f.jpg"));
-                case'g'->setItem(new Image("ui/image/general/bag/g.jpg"));
-                case'h'->setItem(new Image("ui/image/general/bag/h.jpg"));
-                case'i'->setItem(new Image("ui/image/general/bag/i.jpg"));
-                case'j'->setItem(new Image("ui/image/general/bag/j.jpg"));
-                case'k'->setItem(new Image("ui/image/general/bag/k.jpg"));
-                case'l'->setItem(new Image("ui/image/general/bag/l.jpg"));
-                case'm'->setItem(new Image("ui/image/general/bag/m.jpg"));
-                case'n'->setItem(new Image("ui/image/general/bag/n.jpg"));
-                case'o'->setItem(new Image("ui/image/general/bag/o.jpg"));
-                case'p'->setItem(new Image("ui/image/general/bag/p.jpg"));
-                case'q'->setItem(new Image("ui/image/general/bag/q.jpg"));
-                case'r'->setItem(new Image("ui/image/general/bag/r.jpg"));
-                case's'->setItem(new Image("ui/image/general/bag/s.jpg"));
-                case't'->setItem(new Image("ui/image/general/bag/t.jpg"));
-                case'u'->setItem(new Image("ui/image/general/bag/u.jpg"));
-                case'v'->setItem(new Image("ui/image/general/bag/v.jpg"));
-                case'w'->setItem(new Image("ui/image/general/bag/w.jpg"));
-                case'x'->setItem(new Image("ui/image/general/bag/x.jpg"));
-                case'y'->setItem(new Image("ui/image/general/bag/y.jpg"));
-                case'z'->setItem(new Image("ui/image/general/bag/z.jpg"));
+                case' '->setImage(null);
+                case'a'->setImage("ui/image/general/bag/a.jpg");
+                case'b'->setImage("ui/image/general/bag/b.jpg");
+                case'c'->setImage("ui/image/general/bag/c.jpg");
+                case'd'->setImage("ui/image/general/bag/d.jpg");
+                case'e'->setImage("ui/image/general/bag/e.jpg");
+                case'f'->setImage("ui/image/general/bag/f.jpg");
+                case'g'->setImage("ui/image/general/bag/g.jpg");
+                case'h'->setImage("ui/image/general/bag/h.jpg");
+                case'i'->setImage("ui/image/general/bag/i.jpg");
+                case'j'->setImage("ui/image/general/bag/j.jpg");
+                case'k'->setImage("ui/image/general/bag/k.jpg");
+                case'l'->setImage("ui/image/general/bag/l.jpg");
+                case'm'->setImage("ui/image/general/bag/m.jpg");
+                case'n'->setImage("ui/image/general/bag/n.jpg");
+                case'o'->setImage("ui/image/general/bag/o.jpg");
+                case'p'->setImage("ui/image/general/bag/p.jpg");
+                case'q'->setImage("ui/image/general/bag/q.jpg");
+                case'r'->setImage("ui/image/general/bag/r.jpg");
+                case's'->setImage("ui/image/general/bag/s.jpg");
+                case't'->setImage("ui/image/general/bag/t.jpg");
+                case'u'->setImage("ui/image/general/bag/u.jpg");
+                case'v'->setImage("ui/image/general/bag/v.jpg");
+                case'w'->setImage("ui/image/general/bag/w.jpg");
+                case'x'->setImage("ui/image/general/bag/x.jpg");
+                case'y'->setImage("ui/image/general/bag/y.jpg");
+                case'z'->setImage("ui/image/general/bag/z.jpg");
             }
+        }
+
+        private void setImage(String url){
+            this.image=new Image(url);
         }
 
 
@@ -394,13 +396,11 @@ public class GameViewController {
             if (tile != null) {
                 this.letter = tile.letter;
                 this.score = tile.score;
-                this.setStyle("-fx-font-size: 14px;");
                 this.setColor(this.color);
             } else {
                 this.letter = ' ';
                 this.setColor(defoultTileBardColor);
             }
-            setText(getTileText());
         }
 
         private String getTileText() {
@@ -418,7 +418,7 @@ public class GameViewController {
 
         public void setLetter(char letter) {
             this.letter = letter;
-            setText(this.getTileText());
+            this.initImageValues();
         }
 
 
