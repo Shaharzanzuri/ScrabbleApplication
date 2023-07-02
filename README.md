@@ -32,7 +32,7 @@ The game also includes a dictionary of book-related words and phrases, so player
 * A small board containing a letter (in English) and its value in the game - the amount of points the letter is worth.
 * In the following diagram you can see how much each letter is worth in the game:
 
-<img src="https://user-images.githubusercontent.com/91425650/235485730-208cb938-7a8c-4c85-96fe-72085e669579.png" alt="letterValue" width="300" height="200"/>
+![image](https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/3d2124c1-325c-4276-b665-d50cf22f6ce4)
 
 <h4>Bag:</h4>
 
