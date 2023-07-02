@@ -2,27 +2,38 @@ package view;
 
 import Data.Tile;
 import ViewModel.ScrabbleViewModel;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.w3c.dom.events.Event;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,7 +90,7 @@ public class GameViewController {
 
     BooleanProperty disconnect;
     ListProperty<Tile> bindingTiles; //the binding for the vm //
-    ListProperty<String> bindingScoreTable=new SimpleListProperty<>();//for all players
+    ListProperty<String> bindingScoreTable = new SimpleListProperty<>();//for all players
     ObjectProperty<Tile[][]> bindingBoard;//for all players
     StringProperty nameBinding = new SimpleStringProperty();
 
@@ -87,21 +98,21 @@ public class GameViewController {
     private BooleanProperty gameOver;
 
 
-    ObjectProperty<TileView[][]> tileViewBoard = new SimpleObjectProperty<>();
+    ObjectProperty<TileView[][]> prevViewBoard = new SimpleObjectProperty<>();
 
-    //THE INITIALIZE COLORS VALUES
-    private static final Color defoultTileBardColor = Color.WHITE;
-    private static final Color defoultTileBagColor = Color.SANDYBROWN;
-    private static final Color middleStarColor = Color.GOLD;
-    private static final Color tripleWordScoreColor = Color.RED;
-    private static final Color doubleWordScoreColor = Color.LIGHTYELLOW;
-    private static final Color tripleLetterScoreColor = Color.BLUE;
-    private static final Color doubleLetterScoreColor = Color.LIGHTBLUE;
+    //THE INITIALIZE IMAGES VALUES
+    private static final Image TileBardImage = null;
+    private final Image middleStarImage = getImageFromUrl("src/main/resources/ui/image/general/star.jpg");
+    private final Image tripleWordScoreImage = getImageFromUrl("src/main/resources/ui/image/general/trippleWord.jpg");
+    private final Image doubleWordScoreImage = getImageFromUrl("src/main/resources/ui/image/general/doubleWord.jpg");
+    private final Image tripleLetterScoreImage = getImageFromUrl("src/main/resources/ui/image/general/trippleLetter.jpg");
+    private final Image doubleLetterScoreImage = getImageFromUrl("src/main/resources/ui/image/general/doubleLetter.jpg");
 
     private static final String tripleWord = "Triple Word";
     private static final String doubleWord = "Double Word";
     private static final String doubleLetter = "Double Letter";
     private static final String tripleLetter = "Triple Letter";
+    private static final String regularLetter = "Regular Letter";
 
 
     private static final int TILE_SIZE = 35;
@@ -130,9 +141,6 @@ public class GameViewController {
         System.out.println("initWindow");
         initBinding();
         initSoreTable();
-        drawBoard();
-//        initBoard();
-//        initTileViewBoard();
         initPlayersTiles();
         initButtons();
         setNameGuest(nameBinding.get());
@@ -141,6 +149,7 @@ public class GameViewController {
 
 
     private void initBinding() {
+        bindingScoreTable = new SimpleListProperty<>(vm.getScores());
         scoreTableView.getItems().clear();
         scoreTableView.itemsProperty().bind(vm.getScores());
         bindingTiles = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -153,7 +162,7 @@ public class GameViewController {
         gameOver.bind(vm.getGameOver());
         disconnect = new SimpleBooleanProperty();
         disconnect.bindBidirectional(vm.getDisconnect());
-        nameBinding.bindBidirectional(vm.getName());
+        setNameGuest(vm.getName().get());
     }
 
     private void initSoreTable() {
@@ -174,36 +183,48 @@ public class GameViewController {
 
     private void initPlayersTiles() {
         System.out.println("INIT PLAYERS TILES");
+        tilesPlayerView.getChildren().clear();
         for (int i = 0; i < 7; i++) {
             if (!bindingTiles.isEmpty()) {
-                TileView tileView=new TileView(bindingTiles.get(i));
-                Image tile =tileView.getImage();
+                TileView tileView = new TileView(bindingTiles.get(i));
+                Image tile = tileView.getImage();
                 ImageView iv = new ImageView(tile);
                 iv.setPreserveRatio(true);
-                iv.setFitWidth(35);
-                iv.setFitHeight(35);
+                iv.setFitWidth(40);
+                iv.setFitHeight(40);
+                iv.setStyle("-fx-background-color: light-gray; -fx-border-color: black; -fx-border-width: 2px;");
                 StackPane sp = new StackPane(iv);
                 sp.setAlignment(Pos.CENTER);
-                if (i < 5) {
-                    tilesPlayerView.add(sp, i, 0);
-                } else {
+                StackPane.setMargin(sp, new Insets(5, 0, 10, 0));
+                if (i < 4) {
                     tilesPlayerView.add(sp, i, 1);
+                } else {
+                    tilesPlayerView.add(sp, 7 - i, 2);
                 }
+                // Enable drag-and-drop functionality for the tile
+                enableDragAndDrop(tileView, sp);
             }
-
-
         }
     }
 
 
-    public void drawBoard(){
+    public void drawBoard() {
         board.getChildren().clear();
-        for(int i=0;i<15;i++){
-            for(int j=0;j<15;j++){
-                if(bindingBoard.get()[i][j].letter!=' '){
-                    TileView tileView=new TileView(bindingBoard.get()[i][j]);
+        ImageView[][] imageViewsBoard=getBoardImages();
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                if (bindingBoard.get()[i][j].letter != ' ') {
+                    TileView tileView = new TileView(bindingBoard.get()[i][j]);
                     Image tile = tileView.getImage();
                     ImageView iv = new ImageView(tile);
+                    iv.setPreserveRatio(true);
+                    iv.setFitWidth(35);
+                    iv.setFitHeight(35);
+                    StackPane sp = new StackPane(iv);
+                    sp.setAlignment(Pos.CENTER);
+                    board.add(sp, j, i);
+                }else {
+                    ImageView iv=imageViewsBoard[i][j];
                     iv.setPreserveRatio(true);
                     iv.setFitWidth(35);
                     iv.setFitHeight(35);
@@ -217,8 +238,9 @@ public class GameViewController {
 
 
     private void initButtons() {
-
-        SimpleStringProperty playerName = new SimpleStringProperty();
+        System.out.println("INIT BUTTONS");
+        exitButton.setDisable(false);
+        exitButton.setOpacity(1);
         if (!myTurn.get()) {
             submitButton.setDisable(true);
             skipTurnButton.setDisable(true);
@@ -233,6 +255,17 @@ public class GameViewController {
     }
 
     private void addListeners() {
+        System.out.println("INIT LISTENERS");
+        myTurn.addListener((observable, oldValue, newValue) -> {
+            initButtons();
+        });
+        gameOver.addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                Platform.runLater(() -> {
+                    exitGame();
+                });
+            }
+        });
         disconnect.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 Platform.runLater(() -> stage.close());
@@ -250,12 +283,14 @@ public class GameViewController {
     }
 
     private void setNameGuest(String name) {
+        System.out.println("INIT NAME GUEST");
         this.nameGuest = new Label(nameBinding.get());
-        this.nameGuest.setDisable(true);
-        nameGuest.setDisable(false);
+        this.nameGuest.setDisable(false);
+        this.nameGuest.setBlendMode(BlendMode.SRC_ATOP);
+
     }
 
-
+    @FXML
     public void skipTurn() throws IOException, InterruptedException {
         System.out.println("Skip Turn Clicked!");
         if (this.vm.myTurn.get()) {
@@ -272,20 +307,59 @@ public class GameViewController {
         // Implement the submitButton event handler based on your requirements
     }
 
+    @FXML
+    private void exitGame() {
+        vm.disconnect();
+        System.exit(0);
+    }
+
+
     public void setHost(boolean isHost) {
         this.host = isHost;
     }
 
 
 
-    public void initTileViewBoard() {
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                TileView tileView = new TileView(bindingBoard.get()[i][j]);
-                board.add(tileView, i, j);
-            }
-        }
+    private void enableDragAndDrop(TileView tileView, StackPane tilePane) {
+        // Enable dragging the tile
+        tilePane.setOnDragDetected(event -> {
+            Dragboard dragboard = tilePane.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putString("tile"); // Set a custom string as the content
+            dragboard.setContent(content);
+            selectedTile = tileView; // Store the selected tile
+            event.consume();
+        });
 
+        // Enable dropping the tile on the board
+        board.setOnDragOver(event -> {
+            if (event.getGestureSource() != board && event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
+
+        // Handle dropping the tile on the board
+        board.setOnDragDropped(event -> {
+            boolean success = false;
+            if (event.getDragboard().hasString()) {
+                // Remove the tile from the player's tiles
+                bindingTiles.remove(selectedTile.getTileOriginal());
+
+                // Add the tile to the board
+                int columnIndex = GridPane.getColumnIndex(tilePane);
+                int rowIndex = GridPane.getRowIndex(tilePane);
+                bindingBoard.get()[rowIndex][columnIndex] = selectedTile.getTileOriginal();
+
+                // Redraw the board and the player's tiles
+                drawBoard();
+                initPlayersTiles();
+
+                success = true;
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
     }
 
 
@@ -295,7 +369,8 @@ public class GameViewController {
         private int score;
         private final DropShadow shadow = new DropShadow();
         private Tile tileOriginal;
-        private Image image=null;
+        private Image image = null;
+        private StackPane targetCell;
 
         private boolean draggable;
 
@@ -309,38 +384,10 @@ public class GameViewController {
             initValue();
             initImageValues();
             this.setVisible(true);
-           // this.initEvents();
 
         }
 
-        private void initEvents() {
-            setOnDragDetected(event -> {
-                System.out.println(draggable);
-                if (!draggable)
-                    return;
-                Dragboard db = startDragAndDrop(TransferMode.MOVE);
-                selectedTile = this;
 
-                // Add dragging effect
-                setEffect(shadow);
-                toFront();
-
-                // Set the drag view
-                SnapshotParameters parameters = new SnapshotParameters();
-                parameters.setFill(Color.TRANSPARENT);
-                Image snapshot = snapshot(parameters, null);
-                db.setDragView(snapshot, snapshot.getWidth() / 2, snapshot.getHeight() / 2);
-
-                // Set the drag position relative to the tile
-                event.setDragDetect(true);
-                event.consume();
-            });
-
-        }
-
-        public Tile getTileOriginal() {
-            return this.tileOriginal;
-        }
 
         public TileView() {
             super();
@@ -354,10 +401,15 @@ public class GameViewController {
 
 
             setAlignment(Pos.CENTER);
-            this.initEvents();
+
         }
 
-        public Image getImage(){
+
+        public Tile getTileOriginal() {
+            return this.tileOriginal;
+        }
+
+        public Image getImage() {
             return this.image;
         }
 
@@ -376,41 +428,57 @@ public class GameViewController {
         }
 
 
-        private void initImageValues(){
-            switch (Character.toLowerCase(letter)){
-                case' '->setImage(null);
-                case'a'->setImage("ui/image/bag/a.jpg");
-                case'b'->setImage("ui/image/bag/b.jpg");
-                case'c'->setImage("ui/image/bag/c.jpg");
-                case'd'->setImage("ui/image/bag/d.jpg");
-                case'e'->setImage("ui/image/bag/e.jpg");
-                case'f'->setImage("ui/image/bag/f.jpg");
-                case'g'->setImage("ui/image/bag/g.jpg");
-                case'h'->setImage("ui/image/bag/h.jpg");
-                case'i'->setImage("ui/image/bag/i.jpg");
-                case'j'->setImage("ui/image/bag/j.jpg");
-                case'k'->setImage("ui/image/bag/k.jpg");
-                case'l'->setImage("ui/image/bag/l.jpg");
-                case'm'->setImage("ui/image/bag/m.jpg");
-                case'n'->setImage("ui/image/bag/n.jpg");
-                case'o'->setImage("ui/image/bag/o.jpg");
-                case'p'->setImage("ui/image/bag/p.jpg");
-                case'q'->setImage("ui/image/bag/q.jpg");
-                case'r'->setImage("ui/image/bag/r.jpg");
-                case's'->setImage("ui/image/bag/s.jpg");
-                case't'->setImage("ui/image/bag/t.jpg");
-                case'u'->setImage("ui/image/bag/u.jpg");
-                case'v'->setImage("ui/image/bag/v.jpg");
-                case'w'->setImage("ui/image/bag/w.jpg");
-                case'x'->setImage("ui/image/bag/x.jpg");
-                case'y'->setImage("ui/image/bag/y.jpg");
-                case'z'->setImage("ui/image/bag/z.jpg");
+        private void initImageValues() {
+            switch (Character.toLowerCase(letter)) {
+                case ' ' -> setImage(null);
+                case 'a' -> setImage("ui/image/bag/a.jpg");
+                case 'b' -> setImage("ui/image/bag/b.jpg");
+                case 'c' -> setImage("ui/image/bag/c.jpg");
+                case 'd' -> setImage("ui/image/bag/d.jpg");
+                case 'e' -> setImage("ui/image/bag/e.jpg");
+                case 'f' -> setImage("ui/image/bag/f.jpg");
+                case 'g' -> setImage("ui/image/bag/g.jpg");
+                case 'h' -> setImage("ui/image/bag/h.jpg");
+                case 'i' -> setImage("ui/image/bag/i.jpg");
+                case 'j' -> setImage("ui/image/bag/j.jpg");
+                case 'k' -> setImage("ui/image/bag/k.jpg");
+                case 'l' -> setImage("ui/image/bag/l.jpg");
+                case 'm' -> setImage("ui/image/bag/m.jpg");
+                case 'n' -> setImage("ui/image/bag/n.jpg");
+                case 'o' -> setImage("ui/image/bag/o.jpg");
+                case 'p' -> setImage("ui/image/bag/p.jpg");
+                case 'q' -> setImage("ui/image/bag/q.jpg");
+                case 'r' -> setImage("ui/image/bag/r.jpg");
+                case 's' -> setImage("ui/image/bag/s.jpg");
+                case 't' -> setImage("ui/image/bag/t.jpg");
+                case 'u' -> setImage("ui/image/bag/u.jpg");
+                case 'v' -> setImage("ui/image/bag/v.jpg");
+                case 'w' -> setImage("ui/image/bag/w.jpg");
+                case 'x' -> setImage("ui/image/bag/x.jpg");
+                case 'y' -> setImage("ui/image/bag/y.jpg");
+                case 'z' -> setImage("ui/image/bag/z.jpg");
             }
         }
 
         private void setImage(String url) {
-            String path="src/main/resources/"+url;
-            this.image= new Image(path,true);
+            String path = "src/main/resources/" + url;
+            if (url == null) {
+                System.out.println("url Image not exist");
+            } else {
+                File file = new File(path);
+                if (file.exists()) {
+                    try {
+                        Image image = new Image(file.toURI().toString());
+                        this.image = image;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        // Handle error when loading image
+                    }
+                } else {
+                    // Handle case when file does not exist
+                    // Show an error message or handle it as desired
+                }
+            }
         }
 
 
@@ -426,7 +494,6 @@ public class GameViewController {
                 this.initImageValues();
             }
         }
-
 
 
         public Character getLetter() {
@@ -472,99 +539,112 @@ public class GameViewController {
     }
 
 
-    //function to make a color array\\
-    private static Color[][] getBoardColor() {
+    //function to make a ImageView 2D array\\
+    private ImageView[][] getBoardImages() {
 
-        Color[][] colors = new Color[15][15];
+        ImageView[][] ImageViewsArray = new ImageView[15][15];
 
         // Init color matrix
         for (int i = 0; i < 15; i++)
             for (int j = 0; j < 15; j++)
-                colors[i][j] = Color.ANTIQUEWHITE;
+                ImageViewsArray[i][j] = null;
 
 
-        colors[7][7] = Color.BLACK;
+        ImageViewsArray[7][7] = new ImageView(middleStarImage);
 
-        colors[0][0] = tripleWordScoreColor;
-        colors[7][0] = tripleWordScoreColor;
-        colors[14][0] = tripleWordScoreColor;
-        colors[0][7] = tripleWordScoreColor;
-        colors[14][7] = tripleWordScoreColor;
-        colors[0][14] = tripleWordScoreColor;
-        colors[7][14] = tripleWordScoreColor;
-        colors[14][14] = tripleWordScoreColor;
+        //triple letter score
+        ImageViewsArray[0][0] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[7][0] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[14][0] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[0][7] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[14][7] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[0][14] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[7][14] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[14][14] = new ImageView(tripleLetterScoreImage);
 
-        colors[1][1] = doubleWordScoreColor;
-        colors[2][2] = doubleWordScoreColor;
-        colors[3][3] = doubleWordScoreColor;
-        colors[4][4] = doubleWordScoreColor;
-        colors[13][1] = doubleWordScoreColor;
-        colors[12][2] = doubleWordScoreColor;
-        colors[11][3] = doubleWordScoreColor;
-        colors[10][4] = doubleWordScoreColor;
-        colors[1][13] = doubleWordScoreColor;
-        colors[2][12] = doubleWordScoreColor;
-        colors[3][11] = doubleWordScoreColor;
-        colors[4][10] = doubleWordScoreColor;
-        colors[10][10] = doubleWordScoreColor;
-        colors[11][11] = doubleWordScoreColor;
-        colors[12][12] = doubleWordScoreColor;
-        colors[13][13] = doubleWordScoreColor;
-
-
-        colors[3][0] = doubleLetterScoreColor;
-        colors[11][0] = doubleLetterScoreColor;
-        colors[6][2] = doubleLetterScoreColor;
-        colors[8][2] = doubleLetterScoreColor;
-        colors[0][3] = doubleLetterScoreColor;
-        colors[7][3] = doubleLetterScoreColor;
-        colors[14][3] = doubleLetterScoreColor;
-        colors[2][6] = doubleLetterScoreColor;
-        colors[6][6] = doubleLetterScoreColor;
-        colors[8][6] = doubleLetterScoreColor;
-        colors[12][6] = doubleLetterScoreColor;
-        colors[3][7] = doubleLetterScoreColor;
-        colors[11][7] = doubleLetterScoreColor;
-        colors[2][8] = doubleLetterScoreColor;
-        colors[6][8] = doubleLetterScoreColor;
-        colors[8][8] = doubleLetterScoreColor;
-        colors[12][8] = doubleLetterScoreColor;
-        colors[0][11] = doubleLetterScoreColor;
-        colors[7][11] = doubleLetterScoreColor;
-        colors[14][11] = doubleLetterScoreColor;
-        colors[6][12] = doubleLetterScoreColor;
-        colors[8][12] = doubleLetterScoreColor;
-        colors[3][14] = doubleLetterScoreColor;
-        colors[11][14] = doubleLetterScoreColor;
+        //double word score
+        ImageViewsArray[1][1] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[2][2] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[3][3] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[4][4] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[13][1] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[12][2] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[11][3] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[10][4] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[1][13] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[2][12] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[3][11] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[4][10] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[10][10] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[11][11] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[12][12] = new ImageView(doubleWordScoreImage);
+        ImageViewsArray[13][13] = new ImageView(doubleWordScoreImage);
 
 
-        colors[5][1] = tripleLetterScoreColor;
-        colors[9][1] = tripleLetterScoreColor;
-        colors[1][5] = tripleLetterScoreColor;
-        colors[5][5] = tripleLetterScoreColor;
-        colors[9][5] = tripleLetterScoreColor;
-        colors[13][5] = tripleLetterScoreColor;
-        colors[1][9] = tripleLetterScoreColor;
-        colors[5][9] = tripleLetterScoreColor;
-        colors[9][9] = tripleLetterScoreColor;
-        colors[13][9] = tripleLetterScoreColor;
-        colors[5][13] = tripleLetterScoreColor;
-        colors[9][13] = tripleLetterScoreColor;
+        //double letter score
+        ImageViewsArray[3][0] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[11][0] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[6][2] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[8][2] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[0][3] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[7][3] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[14][3] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[2][6] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[6][6] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[8][6] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[12][6] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[3][7] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[11][7] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[2][8] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[6][8] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[8][8] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[12][8] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[0][11] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[7][11] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[14][11] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[6][12] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[8][12] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[3][14] = new ImageView(doubleLetterScoreImage);
+        ImageViewsArray[11][14] = new ImageView(doubleLetterScoreImage);
 
-        return colors;
+
+        //triple letter score
+        ImageViewsArray[5][1] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[9][1] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[1][5] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[5][5] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[9][5] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[13][5] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[1][9] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[5][9] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[9][9] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[13][9] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[5][13] = new ImageView(tripleLetterScoreImage);
+        ImageViewsArray[9][13] = new ImageView(tripleLetterScoreImage);
+
+        return ImageViewsArray;
 
     }
 
-    @FXML
-    private void exitGame() {
-        // Implement the exitGame functionality
-        System.exit(0);
+    private Image getImageFromUrl(String url) {
+        Image image = null;
+        if (url == null) {
+            System.out.println("url Image not exist");
+        } else {
+            File file = new File(url);
+            if (file.exists()) {
+                try {
+                    image = new Image(file.toURI().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Handle error when loading image
+                }
+            } else {
+                // Handle case when file does not exist
+                // Show an error message or handle it as desired
+            }
+        }
+        return image;
     }
 
-
-    @FXML
-    private void homePage() {
-        // Implement the homePage functionality
-        // Code to navigate to the previous page
-    }
 }

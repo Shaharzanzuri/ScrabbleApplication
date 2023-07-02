@@ -18,6 +18,7 @@
     -fx-background-color: transparent;
 }
 
+
 .list-view:focused {
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
@@ -40,9 +41,6 @@
     -fx-background-color: transparent;
 }
 
-.grid-pane {
-
-}
 
 .button{
     -fx-min-width: 100px;
@@ -54,7 +52,6 @@
 .vbox {
     -fx-min-width: 150px;
     -fx-max-width: 150px;
-
 }
 
 

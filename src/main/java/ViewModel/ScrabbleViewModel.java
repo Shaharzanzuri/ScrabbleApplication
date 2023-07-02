@@ -16,7 +16,7 @@ public class ScrabbleViewModel implements Observer {
 
     private ObjectProperty<Tile[][]> boardProperty;// data binding
     private final ListProperty<Tile> tiles; // data binding
-    private final ListProperty<String> scores; // data binding
+    private ListProperty<String> scores; // data binding
     private final ScrabbleModelFacade model;
     public final BooleanProperty myTurn; // data binding
     public final BooleanProperty gameOver; // data binding
@@ -117,6 +117,7 @@ public class ScrabbleViewModel implements Observer {
             myTurn.set(true);
         }
         try {
+            name=new SimpleStringProperty(model.getName());
             prevBoard=model.getBoard();
         } catch (IOException e) {
             throw new RuntimeException(e);

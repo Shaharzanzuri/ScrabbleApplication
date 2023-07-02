@@ -20,6 +20,7 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
 
     protected Board board;
     public List<Player> players;
+    private String score;
     protected String name;
     private int round;
     private boolean bagIsEmpty;
@@ -68,12 +69,8 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
         this.notifyAllPlayers();
         this.setChanged();
         this.notifyObservers();
-        // ViewModel should demand new tiles and remove previous ones
-        // ViewModel should demand next turn, getBoard, getScore
         numberOfPasses = -1;
         return true;
-
-
     }
 
     private void notifyAllPlayers() throws IOException {
@@ -93,8 +90,7 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
         }
     }
 
-    @Override
-    public String getScore() throws IOException {
+    public void initScore() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < this.players.size(); i++) {
             if (i == this.players.size() - 1) {
@@ -103,7 +99,13 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
             }
             sb.append(this.players.get(i).getName()).append(";").append(this.players.get(i).getScore()).append(",");
         }
-        return sb.toString();
+        this.score = sb.toString();
+    }
+
+    @Override
+    public String getScore() throws IOException {
+        initScore();
+        return this.score;
     }
 
     @Override
@@ -111,22 +113,6 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
         return board.getTiles();
     }
 
-    // sends the letter data board \\
-    private Character[][] getBoardCharacters() {
-
-        Character[][] updatedBoard = new Character[15][15];
-        Tile[][] boardTiles = board.getTiles();
-        for (int i = 0; i < boardTiles.length; i++) {
-            for (int j = 0; j < boardTiles[i].length; j++) {
-                if (boardTiles[i][j] == null) {
-                    updatedBoard[i][j] = '\u0000';
-                    continue;
-                }
-                updatedBoard[i][j] = boardTiles[i][j].letter;
-            }
-        }
-        return updatedBoard;
-    }
 
     @Override
     public String getName() {
@@ -141,7 +127,6 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
         List<Tile> list = new ArrayList<>(7 - amount);
         list = board.setTilesPlayer(list);
         return list;
-
     }
 
     @Override
@@ -211,7 +196,6 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
                 bw.write(message);
                 bw.flush();
             }
-
         } else {
             System.out.println("the massage didnt send to player:" + player.getName());
         }
@@ -296,6 +280,7 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
 
 
     public void update() {
+        initScore();
         this.setChanged();
         this.notifyObservers();
     }

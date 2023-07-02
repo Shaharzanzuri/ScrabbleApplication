@@ -102,7 +102,6 @@ public class MainViewController {
         stage.setScene(scene);
         stage.show();
         bc.initWindow();
-        stage.setFullScreen(true);
     }
 
     public Scene getScenePage() throws IOException {
