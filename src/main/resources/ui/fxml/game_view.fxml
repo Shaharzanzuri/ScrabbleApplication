@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import view.GameViewController.TileView?>
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
@@ -7,6 +8,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+
 
 <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-position: center;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameViewController">
     <BorderPane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: wheat; -fx-border-width: 10px; -fx-border-color: firebrick;" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">

@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -29,6 +28,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.GridView;
 import org.controlsfx.control.cell.ImageGridCell;
+import org.w3c.dom.Node;
 
 import java.io.IOException;
 import java.util.List;
@@ -258,11 +258,9 @@ public class GameViewController {
 
 
     public void initTileViewBoard() {
-        Color[][] colors = getBoardColor();
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                 TileView tileView = new TileView(bindingBoard.get()[i][j]);
-                tileView.setColor(colors[i][j]);
                 board.add(tileView, i, j);
             }
         }
@@ -270,15 +268,13 @@ public class GameViewController {
     }
 
 
-    public class TileView extends StackPane{
+    public class TileView extends StackPane {
 
         private char letter;
         private int score;
-        private Color color;
         private final DropShadow shadow = new DropShadow();
         private Tile tileOriginal;
         private Image image=null;
-
 
         private boolean draggable;
 
@@ -291,7 +287,7 @@ public class GameViewController {
             setAlignment(Pos.CENTER);
             initValue();
             initImageValues();
-            this.initEvents();
+           // this.initEvents();
 
         }
 
@@ -326,14 +322,15 @@ public class GameViewController {
 
         public TileView() {
             super();
-            this.letter = '\u0000';
+            this.letter = ' ';
             draggable = true;
 
-//            initValue();
-            initImageValues();
 
-            setStyle("-fx-font-size: 14px;");
-            setColor(defoultTileBardColor);
+            initImageValues();
+            this.setHeight(35.0);
+            this.setPrefWidth(35.5);
+
+
             setAlignment(Pos.CENTER);
             this.initEvents();
         }
@@ -396,20 +393,13 @@ public class GameViewController {
             if (tile != null) {
                 this.letter = tile.letter;
                 this.score = tile.score;
-                this.setColor(this.color);
+                this.initImageValues();
             } else {
                 this.letter = ' ';
-                this.setColor(defoultTileBardColor);
+                this.initImageValues();
             }
         }
 
-        private String getTileText() {
-            if (score == 0) {
-                return String.valueOf(letter);
-            } else {
-                return letter + " (" + score + ")";
-            }
-        }
 
 
         public Character getLetter() {
@@ -430,18 +420,6 @@ public class GameViewController {
             this.score = score;
         }
 
-        public void setColor(Color color) {
-            this.color = color;
-            updateColor();
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        private void updateColor() {
-            setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-        }
 
         public TileView TileToTileView(Tile tile) {
             return new TileView(tile);
