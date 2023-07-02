@@ -5,24 +5,21 @@ import ViewModel.ScrabbleViewModel;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.io.File;
-
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -30,16 +27,13 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.w3c.dom.events.Event;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
+
+
 
 public class GameViewController {
 
@@ -101,7 +95,7 @@ public class GameViewController {
     ObjectProperty<TileView[][]> prevViewBoard = new SimpleObjectProperty<>();
 
     //THE INITIALIZE IMAGES VALUES
-    private static final Image TileBardImage = null;
+    private final Image TileBoardImage = getImageFromUrl("src/main/resources/ui/image/general/blank_tile.jpg");
     private final Image middleStarImage = getImageFromUrl("src/main/resources/ui/image/general/star.jpg");
     private final Image tripleWordScoreImage = getImageFromUrl("src/main/resources/ui/image/general/trippleWord.jpg");
     private final Image doubleWordScoreImage = getImageFromUrl("src/main/resources/ui/image/general/doubleWord.jpg");
@@ -142,6 +136,7 @@ public class GameViewController {
         initBinding();
         initSoreTable();
         initPlayersTiles();
+        drawBoard();
         initButtons();
         setNameGuest(nameBinding.get());
         addListeners();
@@ -210,7 +205,7 @@ public class GameViewController {
 
     public void drawBoard() {
         board.getChildren().clear();
-        ImageView[][] imageViewsBoard=getBoardImages();
+        ImageView[][] imageViewsBoard = getBoardImages();
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                 if (bindingBoard.get()[i][j].letter != ' ') {
@@ -223,17 +218,24 @@ public class GameViewController {
                     StackPane sp = new StackPane(iv);
                     sp.setAlignment(Pos.CENTER);
                     board.add(sp, j, i);
-                }else {
-                    ImageView iv=imageViewsBoard[i][j];
-                    iv.setPreserveRatio(true);
-                    iv.setFitWidth(35);
-                    iv.setFitHeight(35);
-                    StackPane sp = new StackPane(iv);
-                    sp.setAlignment(Pos.CENTER);
-                    board.add(sp, j, i);
+                } else {
+                    TileView tileView=new TileView(bindingBoard.get()[i][j]);
+                    ImageView iv = imageViewsBoard[i][j];
+                    if (iv != null) {
+                        iv.setPreserveRatio(true);
+                        iv.setFitWidth(35);
+                        iv.setFitHeight(35);
+                        StackPane sp = new StackPane(iv);
+                        sp.setAlignment(Pos.CENTER);
+                        board.add(sp, j, i);
+                        enableDrop(tileView,sp);
+
+                    }
                 }
             }
+
         }
+        board.setGridLinesVisible(true);
     }
 
 
@@ -318,16 +320,77 @@ public class GameViewController {
         this.host = isHost;
     }
 
+    private void enableDrop(TileView tile,StackPane stackPane){
+
+        // Set the drag and drop event handlers for the cell
+        stackPane.setOnDragOver(event -> {
+            if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+                // Allow for moving
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
+
+        stackPane.setOnDragEntered(event -> {
+            if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+                stackPane.setOpacity(0.7);
+            }
+        });
+
+        stackPane.setOnDragExited(event -> {
+            if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+                stackPane.setOpacity(1.0);
+            }
+        });
+
+        stackPane.setOnDragDropped(event -> {
+            boolean success = false;
+            if (event.getDragboard().hasString()) {
+                // Remove the tile from the player's tiles
+                bindingTiles.remove(selectedTile.getTileOriginal());
+
+                // Add the tile to the board
+                int columnIndex = GridPane.getColumnIndex(stackPane);
+                int rowIndex = GridPane.getRowIndex(stackPane);
+                bindingBoard.get()[rowIndex][columnIndex] = selectedTile.getTileOriginal();
+
+                // Redraw the board and the player's tiles
+                drawBoard();
+                initPlayersTiles();
+
+                success = true;
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+    }
+
 
 
     private void enableDragAndDrop(TileView tileView, StackPane tilePane) {
+
+        // Set the drag and drop event handlers for the cell
+        tilePane.setOnDragOver(event -> {
+            if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+                // Allow for moving
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
+
+
         // Enable dragging the tile
         tilePane.setOnDragDetected(event -> {
             Dragboard dragboard = tilePane.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
+
+        // Set the drag view
+        SnapshotParameters parameters = new SnapshotParameters();
+        parameters.setFill(javafx.scene.paint.Color.TRANSPARENT);
             content.putString("tile"); // Set a custom string as the content
             dragboard.setContent(content);
             selectedTile = tileView; // Store the selected tile
+        event.setDragDetect(true);
             event.consume();
         });
 
@@ -386,7 +449,6 @@ public class GameViewController {
             this.setVisible(true);
 
         }
-
 
 
         public TileView() {
@@ -547,20 +609,22 @@ public class GameViewController {
         // Init color matrix
         for (int i = 0; i < 15; i++)
             for (int j = 0; j < 15; j++)
-                ImageViewsArray[i][j] = null;
+                if(bindingBoard.get()[i][j].letter==' '){
+                    ImageViewsArray[i][j] = new ImageView();
+                }
 
 
         ImageViewsArray[7][7] = new ImageView(middleStarImage);
 
-        //triple letter score
-        ImageViewsArray[0][0] = new ImageView(tripleLetterScoreImage);
-        ImageViewsArray[7][0] = new ImageView(tripleLetterScoreImage);
-        ImageViewsArray[14][0] = new ImageView(tripleLetterScoreImage);
-        ImageViewsArray[0][7] = new ImageView(tripleLetterScoreImage);
-        ImageViewsArray[14][7] = new ImageView(tripleLetterScoreImage);
-        ImageViewsArray[0][14] = new ImageView(tripleLetterScoreImage);
-        ImageViewsArray[7][14] = new ImageView(tripleLetterScoreImage);
-        ImageViewsArray[14][14] = new ImageView(tripleLetterScoreImage);
+        //triple word score
+        ImageViewsArray[0][0] = new ImageView(tripleWordScoreImage);
+        ImageViewsArray[7][0] = new ImageView(tripleWordScoreImage);
+        ImageViewsArray[14][0] = new ImageView(tripleWordScoreImage);
+        ImageViewsArray[0][7] = new ImageView(tripleWordScoreImage);
+        ImageViewsArray[14][7] = new ImageView(tripleWordScoreImage);
+        ImageViewsArray[0][14] = new ImageView(tripleWordScoreImage);
+        ImageViewsArray[7][14] = new ImageView(tripleWordScoreImage);
+        ImageViewsArray[14][14] = new ImageView(tripleWordScoreImage);
 
         //double word score
         ImageViewsArray[1][1] = new ImageView(doubleWordScoreImage);
