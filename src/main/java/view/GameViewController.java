@@ -2,7 +2,6 @@ package view;
 
 import Data.Tile;
 import ViewModel.ScrabbleViewModel;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 
 
@@ -10,25 +9,20 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
+
 
 import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.input.ClipboardContent;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.controlsfx.control.GridView;
-import org.controlsfx.control.cell.ImageGridCell;
-import org.w3c.dom.Node;
 
 import java.io.IOException;
 import java.util.List;
@@ -82,7 +76,7 @@ public class GameViewController {
 
     BooleanProperty disconnect;
     ListProperty<Tile> bindingTiles; //the binding for the vm //
-    ListProperty<String> bindingScoreTable;//for all players
+    ListProperty<String> bindingScoreTable=new SimpleListProperty<>();//for all players
     ObjectProperty<Tile[][]> bindingBoard;//for all players
     StringProperty nameBinding = new SimpleStringProperty();
 
@@ -133,8 +127,9 @@ public class GameViewController {
         System.out.println("initWindow");
         initBinding();
         initSoreTable();
+        drawBoard();
 //        initBoard();
-        initTileViewBoard();
+//        initTileViewBoard();
         initPlayersTiles();
         initButtons();
         setNameGuest(nameBinding.get());
@@ -177,20 +172,43 @@ public class GameViewController {
     private void initPlayersTiles() {
         System.out.println("INIT PLAYERS TILES");
         for (int i = 0; i < 7; i++) {
-            TileView tile;
             if (!bindingTiles.isEmpty()) {
-                tile = new TileView(bindingTiles.get(i));
-                tile.initImageValues();
-            } else {
-                tile = new TileView();
-            }
-            if (i < 5) {
-                tilesPlayerView.add(tile, i, 0);
-            } else {
-                tilesPlayerView.add(tile, i, 1);
+                TileView tileView=new TileView(bindingTiles.get(i));
+                Image tile =tileView.getImage();
+                ImageView iv = new ImageView(tile);
+                iv.setPreserveRatio(true);
+                iv.setFitWidth(35);
+                iv.setFitHeight(35);
+                StackPane sp = new StackPane(iv);
+                sp.setAlignment(Pos.CENTER);
+                if (i < 5) {
+                    tilesPlayerView.add(sp, i, 0);
+                } else {
+                    tilesPlayerView.add(sp, i, 1);
+                }
             }
 
 
+        }
+    }
+
+
+    public void drawBoard(){
+        board.getChildren().clear();
+        for(int i=0;i<15;i++){
+            for(int j=0;j<15;j++){
+                if(bindingBoard.get()[i][j].letter!=' '){
+                    TileView tileView=new TileView(bindingBoard.get()[i][j]);
+                    Image tile = tileView.getImage();
+                    ImageView iv = new ImageView(tile);
+                    iv.setPreserveRatio(true);
+                    iv.setFitWidth(35);
+                    iv.setFitHeight(35);
+                    StackPane sp = new StackPane(iv);
+                    sp.setAlignment(Pos.CENTER);
+                    board.add(sp, j, i);
+                }
+            }
         }
     }
 
@@ -287,6 +305,7 @@ public class GameViewController {
             setAlignment(Pos.CENTER);
             initValue();
             initImageValues();
+            this.setVisible(true);
            // this.initEvents();
 
         }
@@ -333,6 +352,10 @@ public class GameViewController {
 
             setAlignment(Pos.CENTER);
             this.initEvents();
+        }
+
+        public Image getImage(){
+            return this.image;
         }
 
 

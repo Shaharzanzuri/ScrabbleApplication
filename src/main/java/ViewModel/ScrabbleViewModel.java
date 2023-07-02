@@ -77,12 +77,21 @@ public class ScrabbleViewModel implements Observer {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        boardProperty = new SimpleObjectProperty<>();
+        try {
+            boardProperty = new SimpleObjectProperty<>(model.getBoard());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         myTurn = new SimpleBooleanProperty();
         gameOver = new SimpleBooleanProperty();
         gameStarted = new SimpleBooleanProperty(model.isGameStarted());;
         disconnect = new SimpleBooleanProperty(model.isDisconnected());
         prevBoard = new Tile[15][15];
+        try {
+            prevBoard=model.getBoard();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         name=new SimpleStringProperty(model.getName());
 
     }
@@ -107,6 +116,14 @@ public class ScrabbleViewModel implements Observer {
         if (model.isMyTurn()) {
             myTurn.set(true);
         }
+        try {
+            prevBoard=model.getBoard();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        initBoardProparty();
 
     }
 
