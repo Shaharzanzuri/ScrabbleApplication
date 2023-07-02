@@ -13,17 +13,6 @@ The Book Scrabble Game is a Desktop application that allows players to create an
 
 The game also includes a dictionary of book-related words and phrases, so players can easily find inspiration for their next move.
 
-# Video links
-- [Demo video -will be added soon]()
-- [Project presentation video - will be added]()
-
-# Gantt Chart
-
-<img src="https://user-images.githubusercontent.com/91425650/235731742-42272f13-755e-4ba5-b799-a13c71a59a36.png" alt="Gantt" width="600" height="400"/>
-
-# Features
-
-# Usage
 
 # Game instructions
 <h3>Definitions:</h3>
@@ -35,7 +24,7 @@ The game also includes a dictionary of book-related words and phrases, so player
 * A small board containing a letter (in English) and its value in the game - the amount of points the letter is worth.
 * In the following diagram you can see how much each letter is worth in the game:
 
-<img src="https://user-images.githubusercontent.com/91425650/235485730-208cb938-7a8c-4c85-96fe-72085e669579.png" alt="letterValue" width="300" height="200"/>
+![image](https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/3d2124c1-325c-4276-b665-d50cf22f6ce4)
 
 <h4>Bag:</h4>
 
@@ -51,11 +40,11 @@ The game also includes a dictionary of book-related words and phrases, so player
 * The board has some bonus slots: o The central square (marked with a star) doubles the value of the word written on it o Squares that double the value of the letter on them (light blue) o Squares that triple the value of the letter on them (blue) o Squares that double the value of the entire word (yellow) o Squares that triple the value of the entire word (red)
 * The bonus slots are distributed as in the following diagram:
 
-<img src="https://user-images.githubusercontent.com/91425650/235486487-61fc94b8-6769-4ad1-a27f-4d3429c36ab9.png" alt="board" width="300" height="300"/>
+<img width="487" alt="Screenshot 2023-07-02 031010" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/06ff6b41-b2b8-434d-bff4-a893629367a9">
 
 <h3>Rules:</h3>
 
-
+# Usage
 <h4>For the project, we will define a slightly simpler set of rules than the original game: </h4>
 
 * Each player randomly draws a tile from the bag
@@ -77,6 +66,18 @@ The game also includes a dictionary of book-related words and phrases, so player
  * A word that must appears in one of the books that was chosen for the game.
  * Leans on one of the existing tiles on the board.
  * Does not produce other illegal words on the board.
+
+# Features
+<img width="960" alt="Screenshot 2023-07-02 030947" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/95da7791-4292-4958-996d-ccb8cdc5ba64">
+
+# Gantt Chart
+
+<img src="https://user-images.githubusercontent.com/91425650/235731742-42272f13-755e-4ba5-b799-a13c71a59a36.png" alt="Gantt" width="600" height="400"/>
+
+# Video links
+- [Demo video -will be added soon]()
+- [Project presentation video - will be added]()
+
  
 # team
 - [Shahar Zanzuri](https://github.com/Shaharzanzuri)
