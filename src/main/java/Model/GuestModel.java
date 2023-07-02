@@ -183,6 +183,8 @@ public class GuestModel extends Observable implements ScrabbleModelFacade {
             case "submit":
                 initUpdate("submit", update);
                 break;
+            case "board-legal":
+                initUpdate("boardLegal",update);
             default:
                 System.out.println("unrecognized updates from host");
                 break;
@@ -239,6 +241,29 @@ public class GuestModel extends Observable implements ScrabbleModelFacade {
             }
         });
         return answer.get();
+    }
+
+    public boolean boardLegal(Tile[][] boardLegal){
+        String request="boardLegal:"+Tile.tilesToString(boardLegal);
+        sendRequest(request);
+        AtomicReference<String> answer = new AtomicReference<>("");
+        Future<String> answerFuter=executorUpdatesCheck.submit(() -> {
+            while (true) {
+                if (isUpdateMap.get("boardLegal")) {
+                    isUpdateMap.put("boardLegal", false);
+                    answer.set(answersMap.get("boardLegal"));
+                    answersMap.put("boardLegal", "");
+                    break;
+                }
+            }
+
+            return answer.get();
+        });
+        if(answer.get()=="true"){
+            return true;
+        }
+        return false;
+
     }
 
     @Override
@@ -402,6 +427,7 @@ public class GuestModel extends Observable implements ScrabbleModelFacade {
         this.isUpdateMap.put("board", false);
         this.isUpdateMap.put("turn", false);
         this.isUpdateMap.put("submit", false);
+        this.isUpdateMap.put("boardLegal",false);
 
         //the answers map
         this.answersMap.put("score", " ");
@@ -409,6 +435,6 @@ public class GuestModel extends Observable implements ScrabbleModelFacade {
         this.answersMap.put("board", " ");
         this.answersMap.put("turn", " ");
         this.answersMap.put("submit", " ");
-
+        this.answersMap.put("boardLegal"," ");
     }
 }

@@ -92,7 +92,7 @@ public class GameViewController {
     private BooleanProperty gameOver;
 
 
-    ObjectProperty<TileView[][]> prevViewBoard = new SimpleObjectProperty<>();
+    ObjectProperty<Tile[][]> prevViewBoard = new SimpleObjectProperty<>();
 
     //THE INITIALIZE IMAGES VALUES
     private final Image TileBoardImage = getImageFromUrl("src/main/resources/ui/image/general/blank_tile.jpg");
@@ -134,7 +134,6 @@ public class GameViewController {
     public void initWindow() {
         System.out.println("initWindow");
         initBinding();
-        initSoreTable();
         initPlayersTiles();
         drawBoard();
         initButtons();
@@ -157,12 +156,11 @@ public class GameViewController {
         gameOver.bind(vm.getGameOver());
         disconnect = new SimpleBooleanProperty();
         disconnect.bindBidirectional(vm.getDisconnect());
+        nameBinding=new SimpleStringProperty();
+        nameBinding.bindBidirectional(vm.getName());
         setNameGuest(vm.getName().get());
     }
 
-    private void initSoreTable() {
-        scoreTableView.getItems().add(bindingScoreTable.getName());
-    }
 
     private void initBoard() {
         System.out.println("INIT BOARD:");
@@ -218,6 +216,7 @@ public class GameViewController {
                     StackPane sp = new StackPane(iv);
                     sp.setAlignment(Pos.CENTER);
                     board.add(sp, j, i);
+                    enableDrop(tileView,sp);
                 } else {
                     TileView tileView=new TileView(bindingBoard.get()[i][j]);
                     ImageView iv = imageViewsBoard[i][j];
@@ -236,6 +235,7 @@ public class GameViewController {
 
         }
         board.setGridLinesVisible(true);
+        board.setStyle("-fx-border-color:firebrick ; -fx-border-width:5px; -fx-grid-lines-visible: true");
     }
 
 
@@ -243,7 +243,7 @@ public class GameViewController {
         System.out.println("INIT BUTTONS");
         exitButton.setDisable(false);
         exitButton.setOpacity(1);
-        if (!myTurn.get()) {
+        if (!myTurn.get()&& !vm.isHost()) {
             submitButton.setDisable(true);
             skipTurnButton.setDisable(true);
             submitButton.setOpacity(0.5);
@@ -288,7 +288,6 @@ public class GameViewController {
         System.out.println("INIT NAME GUEST");
         this.nameGuest = new Label(nameBinding.get());
         this.nameGuest.setDisable(false);
-        this.nameGuest.setBlendMode(BlendMode.SRC_ATOP);
 
     }
 
@@ -348,18 +347,18 @@ public class GameViewController {
             if (event.getDragboard().hasString()) {
                 // Remove the tile from the player's tiles
                 bindingTiles.remove(selectedTile.getTileOriginal());
-
                 // Add the tile to the board
                 int columnIndex = GridPane.getColumnIndex(stackPane);
                 int rowIndex = GridPane.getRowIndex(stackPane);
-                bindingBoard.get()[rowIndex][columnIndex] = selectedTile.getTileOriginal();
-
-                // Redraw the board and the player's tiles
-                drawBoard();
-                initPlayersTiles();
-
-                success = true;
+                String word = String.valueOf(selectedTile.letter);
+                if (submitWord(word, rowIndex, columnIndex, true)) {
+                    bindingBoard.get()[rowIndex][columnIndex] = selectedTile.getTileOriginal();
+                    // Redraw the board and the player's tiles
+                    success = true;
+                }
             }
+            drawBoard();
+            initPlayersTiles();
             event.setDropCompleted(success);
             event.consume();
         });
@@ -412,17 +411,31 @@ public class GameViewController {
                 // Add the tile to the board
                 int columnIndex = GridPane.getColumnIndex(tilePane);
                 int rowIndex = GridPane.getRowIndex(tilePane);
-                bindingBoard.get()[rowIndex][columnIndex] = selectedTile.getTileOriginal();
-
-                // Redraw the board and the player's tiles
-                drawBoard();
-                initPlayersTiles();
-
-                success = true;
+                prevViewBoard.set(bindingBoard.get());
+                String word = String.valueOf(selectedTile.letter);
+                if(submitWord(word,rowIndex,columnIndex,true)){
+                    bindingBoard.get()[rowIndex][columnIndex] = selectedTile.getTileOriginal();
+                    // Redraw the board and the player's tiles
+                    success = true;
+                }
             }
+            drawBoard();
+            board.setGridLinesVisible(true);
+            initPlayersTiles();
             event.setDropCompleted(success);
             event.consume();
         });
+    }
+
+
+    private boolean submitWord(String word,int row,int col,boolean vertical){
+         if(vm.submitWord(word, row, col, vertical)){
+            drawBoard();
+            scoreTableView.getItems().clear();
+            scoreTableView.itemsProperty().bind(vm.getScores());
+            return true;
+        }
+         return false;
     }
 
 
@@ -447,7 +460,6 @@ public class GameViewController {
             initValue();
             initImageValues();
             this.setVisible(true);
-
         }
 
 
@@ -525,7 +537,6 @@ public class GameViewController {
         private void setImage(String url) {
             String path = "src/main/resources/" + url;
             if (url == null) {
-                System.out.println("url Image not exist");
             } else {
                 File file = new File(path);
                 if (file.exists()) {
@@ -556,7 +567,6 @@ public class GameViewController {
                 this.initImageValues();
             }
         }
-
 
         public Character getLetter() {
             return letter;

@@ -27,14 +27,14 @@ public class ScrabbleViewModel implements Observer {
     private StringProperty name;
 
     public void startGame() {
-           this.gameStarted.set(true);
+        this.gameStarted.set(true);
     }
 
     public BooleanProperty getDisconnect() {
         return disconnect;
     }
 
-    public boolean isHost(){
+    public boolean isHost() {
         return model.isHost();
     }
 
@@ -59,6 +59,15 @@ public class ScrabbleViewModel implements Observer {
         return this.prevBoard;
     }
 
+    public boolean boardlegal(String word, int row, int col, boolean vertical) {
+        try {
+            return this.model.submitWord(word, row, col, vertical);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public BooleanProperty getGameStartedProperty() {
         return this.gameStarted;
@@ -82,17 +91,17 @@ public class ScrabbleViewModel implements Observer {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        myTurn = new SimpleBooleanProperty();
+        myTurn = new SimpleBooleanProperty(model.isMyTurn());
         gameOver = new SimpleBooleanProperty();
-        gameStarted = new SimpleBooleanProperty(model.isGameStarted());;
+        gameStarted = new SimpleBooleanProperty(model.isGameStarted());
         disconnect = new SimpleBooleanProperty(model.isDisconnected());
         prevBoard = new Tile[15][15];
         try {
-            prevBoard=model.getBoard();
+            prevBoard = model.getBoard();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        name=new SimpleStringProperty(model.getName());
+        name = new SimpleStringProperty(model.getName());
 
     }
 
@@ -117,8 +126,8 @@ public class ScrabbleViewModel implements Observer {
             myTurn.set(true);
         }
         try {
-            name=new SimpleStringProperty(model.getName());
-            prevBoard=model.getBoard();
+            name = new SimpleStringProperty(model.getName());
+            prevBoard = model.getBoard();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -128,8 +137,8 @@ public class ScrabbleViewModel implements Observer {
 
     }
 
-    public void initTiles(){
-        List<Tile> tileList= null;
+    public void initTiles() {
+        List<Tile> tileList = null;
         try {
             tileList = model.getNewPlayerTiles(7);
         } catch (IOException | ClassNotFoundException e) {
@@ -138,7 +147,7 @@ public class ScrabbleViewModel implements Observer {
         tiles.addAll(tileList);
     }
 
-    public void initBoardProparty(){
+    public void initBoardProparty() {
         try {
             boardProperty.bindBidirectional(new SimpleObjectProperty<>(model.getBoard()));
         } catch (IOException | ClassNotFoundException e) {
@@ -146,7 +155,7 @@ public class ScrabbleViewModel implements Observer {
         }
     }
 
-    public StringProperty getName(){
+    public StringProperty getName() {
         return name;
     }
 
@@ -161,12 +170,12 @@ public class ScrabbleViewModel implements Observer {
             String score = model.getScore();
             System.out.println(score);
             String[] scoreSplit = score.split(",");
-            String[] newScore=new String[scoreSplit.length];
-            int i=0;
-            for(String s:scoreSplit){
-                String[] str=s.split(";");
-                s=str[0]+":"+str[1];
-                newScore[i]=s;
+            String[] newScore = new String[scoreSplit.length];
+            int i = 0;
+            for (String s : scoreSplit) {
+                String[] str = s.split(";");
+                s = str[0] + ":" + str[1];
+                newScore[i] = s;
                 i++;
             }
             scores.clear();
@@ -178,5 +187,14 @@ public class ScrabbleViewModel implements Observer {
     }
 
 
+    public boolean submitWord(String word, int row, int col, boolean vertical) {
+        try {
+            return this.model.submitWord(word, row, col, vertical);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

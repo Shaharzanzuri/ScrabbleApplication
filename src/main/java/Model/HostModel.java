@@ -306,5 +306,4 @@ public class HostModel extends Observable implements ScrabbleModelFacade {
         return hashMapAsString;
     }
 
-
 }

@@ -128,6 +128,10 @@ public class HostHandler implements ClientHandler {
         }
     }
 
+    private void proccesBoardLegal(BufferedWriter bw,String update){
+
+    }
+
 
     private void proccesNewTiles(Socket client, BufferedWriter bw, String update) throws IOException, ClassNotFoundException {
         List<Tile> playerTiles = model.getNewPlayerTiles(Integer.parseInt(update));

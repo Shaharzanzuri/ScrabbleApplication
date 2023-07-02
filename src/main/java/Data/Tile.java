@@ -14,6 +14,10 @@ public class Tile {
         this.score = score;
     }
 
+    public int getScore(){
+        return this.score;
+    }
+
 
     public static class Bag {
 

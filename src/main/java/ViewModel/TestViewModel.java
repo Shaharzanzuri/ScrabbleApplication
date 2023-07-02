@@ -91,12 +91,34 @@ public class TestViewModel {
         }
     }
 
+    public void submitWord() {
+        ListProperty<Tile> tilesPlayer = hostView.getTiles();
+        if(hostView.submitWord(String.valueOf(tilesPlayer.get(0).letter).toUpperCase(),8,8,false)){
+            System.out.println("Error submit word #0");
+        }
+        if (
+                !hostView.submitWord(String.valueOf(tilesPlayer.get(0).letter).toUpperCase(), 7, 7, true)) {
+            System.out.println("Error submit word #1");
+        }
+        if (
+                hostView.submitWord(String.valueOf(tilesPlayer.get(1).letter).toUpperCase(), 9, 7, true)) {
+            System.out.println("Error submit word #2");
+        }
+        if (
+                !hostView.submitWord(String.valueOf(tilesPlayer.get(2).letter).toUpperCase(), 8, 7, false)) {
+            System.out.println("Error submit word #3");
+        }
+
+
+    }
+
     public static void main(String[] args) throws InterruptedException {
         TestViewModel testViewModel = new TestViewModel();
         testViewModel.initTest();
         testViewModel.StartGameTest();
         testViewModel.getTilesTest();
         testViewModel.getBoardTest();
+        testViewModel.submitWord();
         testViewModel.hostView.disconnect();
         testViewModel.guestView.disconnect();
         System.out.println("done");

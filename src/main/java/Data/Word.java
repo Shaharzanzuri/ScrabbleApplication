@@ -32,7 +32,7 @@ public class Word {
 
     }
 
-    public boolean getVertical() {
+    public boolean isVertical() {
         return this.vertical;
     }
 
