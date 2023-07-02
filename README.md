@@ -17,10 +17,6 @@ The game also includes a dictionary of book-related words and phrases, so player
 - [Demo video -will be added soon]()
 - [Project presentation video - will be added]()
 
-# Gantt Chart
-
-<img src="https://user-images.githubusercontent.com/91425650/235731742-42272f13-755e-4ba5-b799-a13c71a59a36.png" alt="Gantt" width="600" height="400"/>
-
 # Features
 
 # Usage
@@ -29,6 +25,7 @@ The game also includes a dictionary of book-related words and phrases, so player
 <h3>Definitions:</h3>
 <img width="413" alt="image" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/dabbfd95-bb5f-4860-b1d2-fd0060f7404d">
 
+<img width="960" alt="Screenshot 2023-07-02 030947" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/95da7791-4292-4958-996d-ccb8cdc5ba64">
 
 <h4>Tile:</h4>
 
@@ -77,6 +74,11 @@ The game also includes a dictionary of book-related words and phrases, so player
  * A word that must appears in one of the books that was chosen for the game.
  * Leans on one of the existing tiles on the board.
  * Does not produce other illegal words on the board.
+
+# Gantt Chart
+
+<img src="https://user-images.githubusercontent.com/91425650/235731742-42272f13-755e-4ba5-b799-a13c71a59a36.png" alt="Gantt" width="600" height="400"/>
+
  
 # team
 - [Shahar Zanzuri](https://github.com/Shaharzanzuri)
