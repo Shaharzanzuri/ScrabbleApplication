@@ -51,7 +51,7 @@ The game also includes a dictionary of book-related words and phrases, so player
 * The board has some bonus slots: o The central square (marked with a star) doubles the value of the word written on it o Squares that double the value of the letter on them (light blue) o Squares that triple the value of the letter on them (blue) o Squares that double the value of the entire word (yellow) o Squares that triple the value of the entire word (red)
 * The bonus slots are distributed as in the following diagram:
 
-<img src="https://user-images.githubusercontent.com/91425650/235486487-61fc94b8-6769-4ad1-a27f-4d3429c36ab9.png" alt="board" width="300" height="300"/>
+<img width="487" alt="Screenshot 2023-07-02 031010" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/06ff6b41-b2b8-434d-bff4-a893629367a9">
 
 <h3>Rules:</h3>
 
