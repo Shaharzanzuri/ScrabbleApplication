@@ -13,19 +13,11 @@ The Book Scrabble Game is a Desktop application that allows players to create an
 
 The game also includes a dictionary of book-related words and phrases, so players can easily find inspiration for their next move.
 
-# Video links
-- [Demo video -will be added soon]()
-- [Project presentation video - will be added]()
-
-# Features
-
-# Usage
 
 # Game instructions
 <h3>Definitions:</h3>
 <img width="413" alt="image" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/dabbfd95-bb5f-4860-b1d2-fd0060f7404d">
 
-<img width="960" alt="Screenshot 2023-07-02 030947" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/95da7791-4292-4958-996d-ccb8cdc5ba64">
 
 <h4>Tile:</h4>
 
@@ -52,7 +44,7 @@ The game also includes a dictionary of book-related words and phrases, so player
 
 <h3>Rules:</h3>
 
-
+# Usage
 <h4>For the project, we will define a slightly simpler set of rules than the original game: </h4>
 
 * Each player randomly draws a tile from the bag
@@ -75,9 +67,16 @@ The game also includes a dictionary of book-related words and phrases, so player
  * Leans on one of the existing tiles on the board.
  * Does not produce other illegal words on the board.
 
+# Features
+<img width="960" alt="Screenshot 2023-07-02 030947" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/95da7791-4292-4958-996d-ccb8cdc5ba64">
+
 # Gantt Chart
 
 <img src="https://user-images.githubusercontent.com/91425650/235731742-42272f13-755e-4ba5-b799-a13c71a59a36.png" alt="Gantt" width="600" height="400"/>
+
+# Video links
+- [Demo video -will be added soon]()
+- [Project presentation video - will be added]()
 
  
 # team
