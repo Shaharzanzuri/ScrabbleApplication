@@ -24,7 +24,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class GameViewController {
@@ -376,37 +379,38 @@ public class GameViewController {
         private void initImageValues(){
             switch (Character.toLowerCase(letter)){
                 case' '->setImage(null);
-                case'a'->setImage("ui/image/general/bag/a.jpg");
-                case'b'->setImage("ui/image/general/bag/b.jpg");
-                case'c'->setImage("ui/image/general/bag/c.jpg");
-                case'd'->setImage("ui/image/general/bag/d.jpg");
-                case'e'->setImage("ui/image/general/bag/e.jpg");
-                case'f'->setImage("ui/image/general/bag/f.jpg");
-                case'g'->setImage("ui/image/general/bag/g.jpg");
-                case'h'->setImage("ui/image/general/bag/h.jpg");
-                case'i'->setImage("ui/image/general/bag/i.jpg");
-                case'j'->setImage("ui/image/general/bag/j.jpg");
-                case'k'->setImage("ui/image/general/bag/k.jpg");
-                case'l'->setImage("ui/image/general/bag/l.jpg");
-                case'm'->setImage("ui/image/general/bag/m.jpg");
-                case'n'->setImage("ui/image/general/bag/n.jpg");
-                case'o'->setImage("ui/image/general/bag/o.jpg");
-                case'p'->setImage("ui/image/general/bag/p.jpg");
-                case'q'->setImage("ui/image/general/bag/q.jpg");
-                case'r'->setImage("ui/image/general/bag/r.jpg");
-                case's'->setImage("ui/image/general/bag/s.jpg");
-                case't'->setImage("ui/image/general/bag/t.jpg");
-                case'u'->setImage("ui/image/general/bag/u.jpg");
-                case'v'->setImage("ui/image/general/bag/v.jpg");
-                case'w'->setImage("ui/image/general/bag/w.jpg");
-                case'x'->setImage("ui/image/general/bag/x.jpg");
-                case'y'->setImage("ui/image/general/bag/y.jpg");
-                case'z'->setImage("ui/image/general/bag/z.jpg");
+                case'a'->setImage("ui/image/bag/a.jpg");
+                case'b'->setImage("ui/image/bag/b.jpg");
+                case'c'->setImage("ui/image/bag/c.jpg");
+                case'd'->setImage("ui/image/bag/d.jpg");
+                case'e'->setImage("ui/image/bag/e.jpg");
+                case'f'->setImage("ui/image/bag/f.jpg");
+                case'g'->setImage("ui/image/bag/g.jpg");
+                case'h'->setImage("ui/image/bag/h.jpg");
+                case'i'->setImage("ui/image/bag/i.jpg");
+                case'j'->setImage("ui/image/bag/j.jpg");
+                case'k'->setImage("ui/image/bag/k.jpg");
+                case'l'->setImage("ui/image/bag/l.jpg");
+                case'm'->setImage("ui/image/bag/m.jpg");
+                case'n'->setImage("ui/image/bag/n.jpg");
+                case'o'->setImage("ui/image/bag/o.jpg");
+                case'p'->setImage("ui/image/bag/p.jpg");
+                case'q'->setImage("ui/image/bag/q.jpg");
+                case'r'->setImage("ui/image/bag/r.jpg");
+                case's'->setImage("ui/image/bag/s.jpg");
+                case't'->setImage("ui/image/bag/t.jpg");
+                case'u'->setImage("ui/image/bag/u.jpg");
+                case'v'->setImage("ui/image/bag/v.jpg");
+                case'w'->setImage("ui/image/bag/w.jpg");
+                case'x'->setImage("ui/image/bag/x.jpg");
+                case'y'->setImage("ui/image/bag/y.jpg");
+                case'z'->setImage("ui/image/bag/z.jpg");
             }
         }
 
-        private void setImage(String url){
-            this.image=new Image(url);
+        private void setImage(String url) {
+            String path="src/main/resources/"+url;
+            this.image= new Image(path,true);
         }
 
 
