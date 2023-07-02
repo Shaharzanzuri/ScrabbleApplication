@@ -79,7 +79,7 @@ public class MainViewController {
         String fxmlPath = "src/main/resources/ui/fxml/game_view.fxml";
         fxmlLoader = new FXMLLoader(new File(fxmlPath).toURL());
         Scene scene = new Scene(fxmlLoader.load());
-       scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/ui/css/game-page.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/ui/css/game-page.css")).toExternalForm());
         GameViewController bc = fxmlLoader.getController();
         bc.setStage(stage);
         bc.setViewModel(vm);
@@ -102,7 +102,7 @@ public class MainViewController {
         stage.setScene(scene);
         stage.show();
         bc.initWindow();
-//        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setFullScreen(true);
     }
 
     public Scene getScenePage() throws IOException {

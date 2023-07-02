@@ -11,6 +11,9 @@
     -fx-background-color: transparent;
 }
 
+.bounos{
+}
+
 #tilesPlayerView{
     -fx-background-color: transparent;
 }
@@ -38,7 +41,7 @@
 }
 
 .grid-pane {
-    -fx-background-color:tan;
+
 }
 
 .button{
