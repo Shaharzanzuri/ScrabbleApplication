@@ -17,7 +17,7 @@ The game also includes a dictionary of book-related words and phrases, so player
 # Game instructions
 <h3>Definitions:</h3>
 <img width="413" alt="image" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/dabbfd95-bb5f-4860-b1d2-fd0060f7404d">
-
+<img width="957" alt="Screenshot 2023-07-02 173449" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/639bfdfb-1bde-4f1d-89c9-03ed52c11aef">
 
 <h4>Tile:</h4>
 
@@ -67,8 +67,7 @@ The game also includes a dictionary of book-related words and phrases, so player
  * Leans on one of the existing tiles on the board.
  * Does not produce other illegal words on the board.
 
-# Features
-<img width="960" alt="Screenshot 2023-07-02 030947" src="https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/95da7791-4292-4958-996d-ccb8cdc5ba64">
+
 
 # Gantt Chart
 
