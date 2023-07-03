@@ -76,7 +76,8 @@ The game also includes a dictionary of book-related words and phrases, so player
 <img src="https://user-images.githubusercontent.com/91425650/235731742-42272f13-755e-4ba5-b799-a13c71a59a36.png" alt="Gantt" width="600" height="400"/>
 
 # Video links
-- [Demo video -will be added soon]()
+
+- [Demo video](file:///C:/Users/zanzu/Videos/Captures/ScrabbleApplication%20%E2%80%93%20ScrabbleApplication.java%202023-06-30%2020-19-48.mp4)
 - [Project presentation video - will be added]()
 
  
