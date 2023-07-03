@@ -77,7 +77,7 @@ The game also includes a dictionary of book-related words and phrases, so player
 
 # Video links
 
-- [Demo video](file:///C:/Users/zanzu/Videos/Captures/ScrabbleApplication%20%E2%80%93%20ScrabbleApplication.java%202023-06-30%2020-19-48.mp4)
+- [Demo video]
 - [Project presentation video - will be added]()
 
  
