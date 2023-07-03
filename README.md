@@ -1,4 +1,6 @@
+![image](https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/671b173f-e155-4fa7-a846-17453446ff27)
 # ScrabbleApplication
+
 scrabble game Application with Java and JavaFX.
 
 Book Scrabble is a word game that involves creating words using the titles of books. The game is similar to traditional Scrabble, but instead of using letter tiles, players use the titles of books to form words.
