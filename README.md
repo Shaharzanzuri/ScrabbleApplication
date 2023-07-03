@@ -8,7 +8,6 @@ Book Scrabble is a word game that involves creating words using the titles of bo
 # Table of contents
 * [Game overview]()
 * [Features]()
-* [Usage]()
 
 # Game overview
 The Book Scrabble Game is a Desktop application that allows players to create an account, join or start a game, and play against other players online. The game board consists of a grid of letter tiles, and players take turns placing tiles on the board to form words. Points are awarded based on the length and complexity of the words, as well as any bonus tiles that are used.
@@ -76,11 +75,8 @@ The game also includes a dictionary of book-related words and phrases, so player
 <img src="https://user-images.githubusercontent.com/91425650/235731742-42272f13-755e-4ba5-b799-a13c71a59a36.png" alt="Gantt" width="600" height="400"/>
 
 # Video links
+ -![Scrabble game video](https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/a4d3efa1-2385-48f5-8f67-88b557f275ba)
 
-- [Demo video]
-- [Project presentation video - will be added]()
-
- 
 # team
 - [Shahar Zanzuri](https://github.com/Shaharzanzuri)
 
