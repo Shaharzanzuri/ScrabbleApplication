@@ -161,7 +161,9 @@ public class ScrabbleViewModel implements Observer {
 
     public void skipTurn() throws IOException, InterruptedException {
         model.nextTurn();
-
+        model.notify();
+        Thread.sleep(500);
+        this.myTurn.set(model.isMyTurn());
     }
 
     public ListProperty<String> getScores() {

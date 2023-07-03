@@ -319,7 +319,6 @@ public class GuestModel extends Observable implements ScrabbleModelFacade {
             throw new RuntimeException(e);
         }
 
-
     }
 
 

@@ -2,14 +2,13 @@ package view;
 
 import Data.Tile;
 import ViewModel.ScrabbleViewModel;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 
-import java.awt.*;
 import java.io.File;
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,18 +16,14 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.List;
@@ -158,7 +153,6 @@ public class GameViewController {
         disconnect.bindBidirectional(vm.getDisconnect());
         nameBinding=new SimpleStringProperty();
         nameBinding.bindBidirectional(vm.getName());
-        setNameGuest(vm.getName().get());
     }
 
 
@@ -303,7 +297,7 @@ public class GameViewController {
     // an update of the playerTiles player bag\\
 
     @FXML
-    private void submitButtonClicked(MouseEvent event) {
+    private void submitButtonClicked(ActionEvent event) {
         System.out.println("submit button game clicked!");
         // Implement the submitButton event handler based on your requirements
     }

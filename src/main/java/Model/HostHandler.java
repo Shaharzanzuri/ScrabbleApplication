@@ -192,9 +192,15 @@ public class HostHandler implements ClientHandler {
         int row = Integer.parseInt(parts[1]);
         int col = Integer.parseInt(parts[2]);
         boolean vertical = Boolean.parseBoolean(parts[3]);
-        String response = Boolean.toString(model.submitWord(word, row, col, vertical));
-        bw.write("answer:submit-"+response + "\n");
-        bw.flush();
+        if(model.submitWord(word, row, col, vertical)){
+            model.update();
+            model.notifyObservers();
+            bw.write("answer:submit-true\n");
+            bw.flush();
+        }else{
+            bw.write("answer:submit-false\n");
+            bw.flush();
+        }
     }
 
 }
