@@ -75,7 +75,7 @@ The game also includes a dictionary of book-related words and phrases, so player
 <img src="https://user-images.githubusercontent.com/91425650/235731742-42272f13-755e-4ba5-b799-a13c71a59a36.png" alt="Gantt" width="600" height="400"/>
 
 # Video links
- -![Scrabble game video](https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/a4d3efa1-2385-48f5-8f67-88b557f275ba)
+ -[Scrabble game video](https://github.com/Shaharzanzuri/ScrabbleApplication/assets/109790489/a4d3efa1-2385-48f5-8f67-88b557f275ba)
 
 # team
 - [Shahar Zanzuri](https://github.com/Shaharzanzuri)
